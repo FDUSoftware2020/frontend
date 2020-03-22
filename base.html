@@ -11,29 +11,21 @@
                 <link rel="shortcut icon" href="images/icon.png" />
                 <!-- Style Sheet-->
                 <link rel='stylesheet' id='main-css-css'  href='css/home.css' type='text/css' media='all' />
-                <link rel='stylesheet' id='sign-css-css'  href='css/register.css' type='text/css' media='all' />
-                <link rel="stylesheet" href="js/particles/css/style.css">
-                <link rel="stylesheet" href="js/sweetalert2/sweetalert2.min.css">
-                <link rel="stylesheet" href="css/base.css">
-                <link rel="stylesheet" href="css/login.css">
-
-                <!--vue-->
+                
+                <!-- vue-->
                 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
         </head>
 
         <body>
-
                 <!-- Start of Header -->
-                <div class="header-wrapper">
+                <div class="header-wrapper" vertical-align:bottom display:block}>
                         <header>
                                 <div class="container">
-
-
                                         <div class="logo-container">
                                                 <!-- Website Logo -->
-                                                <a href="home.html"  title="Knowledge Base Theme">
-                                                        <img src="images/logo.png" alt="Knowledge Base Theme">
+                                                <a href="home.html"  title="FSDN">
+                                                        <img src="images/logo.png" alt="FSDN">
                                                 </a>
                                                 <span class="tag-line">Fudan Software Developer Network</span>
                                         </div>
@@ -58,39 +50,12 @@
                                                 </div>
                                         </nav>
                                         <!-- End of Main Navigation -->
-
                                 </div>
                         </header>
                 </div>
                 <!-- End of Header -->
-
                 
-                <div id="particles-js"></div>
-	        <div id="wrapper">
-		        <nav class="switch_nav">
-			        <a href="javascript:;" id="switch_signup" class="switch_btn on">Register</a>
-			        <a href="sign.html" id="switch_login" class="switch_btn">Login</a>
-			        <div class="switch_bottom" id="switch_bottom"></div>
-		        </nav>
-		        <div id="login">
-			        <form method="post" action="">
-				        <ul class="group_input">
-					<li><input type="text" class="username required" id="username" placeholder="Username" /></li>
-					<li><input type="password" class="psd required" id="password" placeholder="Password" /></li>
-                                        <li><input type="text" class="email required" id="email" placeholder="Email" /></li>
-                                        </ul>
-                                        <button type="submit" class="submit_btn" id="btnSubmit">Register</button>
-                                        <span class="agreement-tip">Pressing button means signing up 《FSDN Agreement》which is totally non-existent.</span>
-			        </form>
-	                </div>
-                </div>
-                <!--script-->
-                <script src="js/jquery-1.12.4/jquery.min.js"></script>
-	        <script src="js/sweetalert2/sweetalert2.min.js"></script>
-	        <script src="js/particles/particles.min.js"></script>
-	        <script src="js/particles/js/app.js"></script>
-                <script type='text/javascript' src='js/register.js'></script>
-                
+                {% block main %}{% endblock %}
 
         </body>
 </html>

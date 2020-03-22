@@ -7,14 +7,13 @@
                 <!-- META TAGS -->
                 <meta charset="UTF-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-                <title>Knowledge Base Theme</title>
-
-
+                <title>FSDN ฅ^•ﻌ•^ฅ</title>
+                <link rel="shortcut icon" href="images/icon.png" />
                 <!-- Style Sheet-->
                 <link rel='stylesheet' id='main-css-css'  href='css/home.css' type='text/css' media='all' />
-                <link rel='stylesheet' id='sign-css-css'  href='css/sign.css' type='text/css' media='all' />
-
+                <link rel="stylesheet" href="js/particles/css/style.css">
+                <link rel="stylesheet" href="css/base.css">
+                <link rel="stylesheet" href="css/login.css" />
                 <!--vue-->
                 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
@@ -42,8 +41,16 @@
                                                 <div class="menu-top-menu-container">
                                                         <ul id="menu-top-menu" class="clearfix">
                                                                 <li><a href="home.html">Home</a></li>                                                                                                                            
-                                                                <li class="current-menu-item"><a href = "sign.html">Sign</a></li>
-                                                                <li><a href = "register.html">Register</a></li>
+                                                                <li><a href="sign.html">Sign</a></li>
+                                                                <li><a href="register.html">Register</a></li>
+                                                                <li><a href="#">User</a>
+                                                                        <ul class="sub-menu">
+                                                                                <li><a>wait</a></li>
+                                                                                <li><a>for</a></li>
+                                                                                <li><a>more</a></li>
+                                                                                <li><a>detail</a></li>
+                                                                        </ul>
+                                                                </li>
                                                         </ul>
                                                 </div>
                                         </nav>
@@ -55,19 +62,26 @@
                 <!-- End of Header -->
 
 
-                <div class = "sign-wrapper">
-                        <div class = "sign-container" id = "vue-sign">
-                                <p class = "sign-welcome">欢迎使用FSDN论坛</p>
-                                <table class = "sign-table" cellspacing = 20>
-                                        <tr><td>登录名</td><td><input type = "text" v-model = "id"></td></tr>
-                                        <tr><td>密码</td><td><input type = "password" v-model = "pwd"></td></tr>
-                                </table>
-                                <p class = "button-sign"><button type = "button" v-on:click = "sign_in">登录</button></p>
-                        </div>
+	        <div id="particles-js"></div>
+	        <div id="wrapper">
+		        <nav class="switch_nav">
+			        <a href="register.html" id="switch_signup" class="switch_btn">Register</a>
+			        <a href="javascript:;" id="switch_login" class="switch_btn on">Login</a>
+			        <div class="switch_bottom" id="switch_bottom"></div>
+		        </nav>
+		        <div id="login">
+			        <form method="post" action="">
+				        <ul class="group_input">
+					<li><input type="text" class="something required" id="username" placeholder="Username" /></li>
+					<li><input type="password" class="psd required" id="password" placeholder="Password" /></li>
+				        </ul>
+				        <button type="submit" class="submit_btn" id="btnSubmit">Login</button>
+			        </form>
+	                </div>
                 </div>
-
-                <!--script-->
+	        <script src="js/jquery-1.12.4/jquery.min.js"></script>
+	        <script src="js/particles/particles.min.js"></script>
+                <script src="js/particles/js/app.js"></script>
                 <script type='text/javascript' src='js/sign.js'></script>
-                
         </body>
 </html>
