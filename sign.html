@@ -1,0 +1,73 @@
+<!doctype html>
+        <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en-US"> <![endif]-->
+        <!--[if IE 7]>    <html class="lt-ie9 lt-ie8" lang="en-US"> <![endif]-->
+        <!--[if IE 8]>    <html class="lt-ie9" lang="en-US"> <![endif]-->
+        <!--[if gt IE 8]><!--> <html lang="en-US"> <!--<![endif]-->
+        <head>
+                <!-- META TAGS -->
+                <meta charset="UTF-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+                <title>Knowledge Base Theme</title>
+
+
+                <!-- Style Sheet-->
+                <link rel='stylesheet' id='main-css-css'  href='css/home.css' type='text/css' media='all' />
+                <link rel='stylesheet' id='sign-css-css'  href='css/sign.css' type='text/css' media='all' />
+
+                <!--vue-->
+                <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+        </head>
+
+        <body>
+
+                <!-- Start of Header -->
+                <div class="header-wrapper">
+                        <header>
+                                <div class="container">
+
+
+                                        <div class="logo-container">
+                                                <!-- Website Logo -->
+                                                <a href="home.html"  title="Knowledge Base Theme">
+                                                        <img src="images/logo.png" alt="Knowledge Base Theme">
+                                                </a>
+                                                <span class="tag-line">Fudan Software Developer Network</span>
+                                        </div>
+
+
+                                        <!-- Start of Main Navigation -->
+                                        <nav class="main-nav">
+                                                <div class="menu-top-menu-container">
+                                                        <ul id="menu-top-menu" class="clearfix">
+                                                                <li><a href="home.html">Home</a></li>                                                                                                                            
+                                                                <li class="current-menu-item"><a href = "sign.html">Sign</a></li>
+                                                                <li><a href = "register.html">Register</a></li>
+                                                        </ul>
+                                                </div>
+                                        </nav>
+                                        <!-- End of Main Navigation -->
+
+                                </div>
+                        </header>
+                </div>
+                <!-- End of Header -->
+
+
+                <div class = "sign-wrapper">
+                        <div class = "sign-container" id = "vue-sign">
+                                <p class = "sign-welcome">欢迎使用FSDN论坛</p>
+                                <table class = "sign-table" cellspacing = 20>
+                                        <tr><td>登录名</td><td><input type = "text" v-model = "id"></td></tr>
+                                        <tr><td>密码</td><td><input type = "password" v-model = "pwd"></td></tr>
+                                </table>
+                                <p class = "button-sign"><button type = "button" v-on:click = "sign_in">登录</button></p>
+                        </div>
+                </div>
+
+                <!--script-->
+                <script type='text/javascript' src='js/sign.js'></script>
+                
+        </body>
+</html>
