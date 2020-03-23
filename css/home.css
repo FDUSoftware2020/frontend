@@ -1,0 +1,226 @@
+/* General ------------------------------------------------------------------------------------------------------------*/
+body {
+  background-color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+blockquote {
+  background: whitesmoke url("../images/quote.png") no-repeat 20px 25px;
+  border: 1px solid #e8e8e8;
+  padding: 20px 20px 20px 60px;
+  color: #6f7579;
+}
+blockquote p {
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 22px;
+}
+
+.bm10 {
+  margin-bottom: 10px;
+}
+
+.bm20 {
+  margin-bottom: 20px;
+}
+
+.bm30 {
+  margin-bottom: 30px;
+}
+
+/* Header - Logo and Nav ---------------------------------------------------------------------------------------------*/
+.header-wrapper {
+  background-color: #3b4348;
+  width: 100%;
+  height: auto;
+}
+.header-wrapper .container {
+  position: relative;
+  min-height: 50px;
+  height: auto !important;
+  height: 50px;
+}
+
+.logo-container {
+  padding: 20px 30px;
+}
+.logo-container img {
+  margin-right: 10px;
+}
+.lt-ie9 .logo-container {
+  width: 450px;
+}
+span.tag-line {
+  color: #818a90;
+  font-size: 15px;
+  position: relative;
+  top: 2px;
+}
+
+
+.main-nav {
+  position: absolute;
+  top: 5px;
+  right: 30px;
+}
+.main-nav div > ul {
+  width: auto;
+  margin: 0;
+}
+.main-nav div > ul > li {
+  position: relative;
+  float: left;
+  list-style: none;
+  padding: 16px 14px 18px;
+}
+.main-nav div > ul > li a {
+  font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  color: #c1cad1;
+}
+.main-nav div > ul > li a:hover {
+  color: #fff;
+}
+.main-nav div > ul > li:hover > a {
+  color: #fff;
+}
+.main-nav div > ul > li:last-child {
+  padding-right: 0;
+}
+.main-nav div > ul li.current-menu-item a {
+  color: #fff;
+}
+.main-nav .sub-menu {
+  position: absolute;
+  top: 56px;
+  left: 0px;
+  list-style: none;
+  margin: 0;
+  display: none;
+}
+.main-nav .sub-menu li {
+  position: relative;
+  background-color: #3b4348;
+  padding: 6px 10px;
+  width: 150px;
+  cursor: pointer;
+}
+.main-nav .sub-menu li:hover {
+  background-color: #292e32;
+}
+.main-nav .sub-menu li:hover > a {
+  color: #fff;
+}
+.main-nav .sub-menu .sub-menu {
+  top: 0px;
+  right: 170px;
+  left: auto;
+}
+.main-nav .responsive-nav {
+  display: none;
+}
+
+.search-area-wrapper {
+  background: #353b65 url("../images/main-bg.jpg") center top no-repeat;
+  background-size: 100%;
+  min-height: 279px;
+  height: auto !important;
+  height: 279px;
+}
+.search-area-wrapper .search-area {
+  padding: 40px 0;
+}
+h3.search-header {
+  font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 36px;
+  color: #fff;
+  text-align: center;
+}
+p.search-tag-line {
+  font-family: "Droid Serif", serif;
+  font-style: italic;
+  font-size: 20px;
+  line-height: 24px;
+  color: #fff;
+  text-align: center;
+}
+form.search-form {
+  margin: 40px 0 0;
+  text-align: center;
+}
+form.search-form .input-common, form.search-form input.search-term, form.search-form input.search-btn {
+  font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  box-shadow: none;
+  border-radius: 0;
+  display: inline-block;
+  border: none;
+  vertical-align: bottom;
+}
+form.search-form input.search-term {
+  font-size: 18px;
+  height: 24px;
+  line-height: 24px;
+  padding: 12px;
+  width: 72%;
+  color: #858c91;
+  margin-right: 10px;
+  margin-bottom: 0;
+}
+form.search-form input.search-term.loading {
+  background-image: url("../images/search-loader.gif");
+  background-repeat: no-repeat;
+  background-position: 98% 50%;
+}
+form.search-form input.search-btn {
+  background-color: #3f4b55;
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: 600;
+  padding: 14px 30px 15px;
+  color: #fff;
+}
+form.search-form input.search-btn:hover {
+  background-color: #4b5760;
+}
+#search-error-container label {
+  color: #fff;
+  padding: 5px;
+  font-size: 18px;
+}
+.lt-ie8 form.search-form input.search-btn {
+  padding-top: 12px;
+  padding-bottom: 13px;
+}
+
+@media (min-width: 980px) {
+  .main-nav div > ul > li {
+    float: none;
+    display: inline-block;
+  }
+}
+@media (max-width: 480px) {
+  /* Search Area */
+  .search-area-wrapper form.search-form input.search-term {
+    width: 80%;
+    display: block;
+    margin: 0 auto 10px;
+  }
+  .search-area-wrapper form.search-form input.search-btn {
+    display: block;
+    margin: 0 auto;
+  }
+
+  ul.articles .article-entry {
+    padding-bottom: 20px;
+  }
+
+  #jquery-live-search #live-search-results {
+    width: 248px;
+  }
+}

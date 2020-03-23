@@ -1,0 +1,26 @@
+.sign-wrapper{
+    height: 300px;
+    width: 400px;
+    border: dotted;
+    margin: auto;
+    margin-top: 250px;
+}
+
+form.sign-form{
+    margin: 60px;
+}
+
+p.sign-welcome{
+    padding-top: 30px;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+table.sign-table{
+    margin: auto;
+}
+
+p.button-sign{
+    text-align: center;
+}
+
