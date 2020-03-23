@@ -6,7 +6,7 @@ body{
 	color: #555;
 	font-size: 15px;
 	line-height: 1.7;
-	background-color: #f7fafc;
+	background-color: #013558;
 	text-align: center;
 	font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
 }
@@ -22,7 +22,7 @@ a{
 }
 #particles-js {
 	position: absolute;
-	top: 0;
+	top: 40;
 	left: 0;
 }
 #wrapper{
