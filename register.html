@@ -70,14 +70,14 @@
 			        <a href="sign.html" id="switch_login" class="switch_btn">Login</a>
 			        <div class="switch_bottom" id="switch_bottom"></div>
 		        </nav>
-		        <div id="login">
+		        <div id="register_container">
 			        <form method="post" action="">
 				        <ul class="group_input">
-					<li><input type="text" class="username required" id="username" placeholder="Username" /></li>
-					<li><input type="password" class="psd required" id="password" placeholder="Password" /></li>
-                                        <li><input type="text" class="email required" id="email" placeholder="Email" /></li>
+					<li><input type="text" class="username required" id="username" placeholder="Username" v-model = "id"/></li>
+					<li><input type="password" class="psd required" id="password" placeholder="Password" v-model = "pwd"/></li>
+                                        <li><input type="text" class="email required" id="email" placeholder="Email" v-model = "email"/></li>
                                         </ul>
-                                        <button type="submit" class="submit_btn" id="btnSubmit">Register</button>
+                                        <button type="submit" class="submit_btn" id="btnSubmit" v-on:click = "register">Register</button>
                                         <span class="agreement-tip">Pressing button means signing up 《FSDN Agreement》which is totally non-existent.</span>
 			        </form>
 	                </div>

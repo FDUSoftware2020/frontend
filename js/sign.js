@@ -1,5 +1,6 @@
+//登录
 var vm = new Vue({
-    el: '#vue-sign',
+    el: '#login_container',
 
     data: {
         id : "",
@@ -7,8 +8,8 @@ var vm = new Vue({
     },
 
     methods: {
-        sign_in : function() {
-            alert(this.id + " " + this.pwd)
+        log_in : function() {
+            alert(this.id + ' ' + this.pwd)
         }
     }
 });

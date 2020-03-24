@@ -43,7 +43,7 @@
                                                                 <li><a href="home.html">Home</a></li>                                                                                                                            
                                                                 <li><a href="sign.html">Sign</a></li>
                                                                 <li><a href="register.html">Register</a></li>
-                                                                <li><a href="#">User</a>
+                                                                <li><a href="#" id = "User_Name">User</a>
                                                                         <ul class="sub-menu">
                                                                                 <li><a>wait</a></li>
                                                                                 <li><a>for</a></li>
@@ -69,13 +69,13 @@
 			        <a href="javascript:;" id="switch_login" class="switch_btn on">Login</a>
 			        <div class="switch_bottom" id="switch_bottom"></div>
 		        </nav>
-		        <div id="login">
+		        <div id="login_container">
 			        <form method="post" action="">
 				        <ul class="group_input">
-					<li><input type="text" class="something required" id="username" placeholder="Username" /></li>
-					<li><input type="password" class="psd required" id="password" placeholder="Password" /></li>
+					<li><input type="text" class="something required" id="username" placeholder="Username" v-model = "id"/></li>
+					<li><input type="password" class="psd required" id="password" placeholder="Password" v-model = "pwd"/></li>
 				        </ul>
-				        <button type="submit" class="submit_btn" id="btnSubmit">Login</button>
+				        <button type="submit" class="submit_btn" id="btnSubmit" v-on:click = "log_in" >Login</button>
 			        </form>
 	                </div>
                 </div>
