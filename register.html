@@ -16,9 +16,10 @@
                 <link rel="stylesheet" href="js/sweetalert2/sweetalert2.min.css">
                 <link rel="stylesheet" href="css/base.css">
                 <link rel="stylesheet" href="css/login.css">
-
                 <!--vue-->
                 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+                <!--Ajax-->
+                <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
         </head>
 
@@ -77,7 +78,7 @@
 					<li><input type="password" class="psd required" id="password" placeholder="Password" v-model = "pwd"/></li>
                                         <li><input type="text" class="email required" id="email" placeholder="Email" v-model = "email"/></li>
                                         </ul>
-                                        <button type="submit" class="submit_btn" id="btnSubmit" v-on:click = "register">Register</button>
+                                        <button type="button" class="submit_btn" id="btnSubmit" v-on:click = "req_register">Register</button>
                                         <span class="agreement-tip">Pressing button means signing up 《FSDN Agreement》which is totally non-existent.</span>
 			        </form>
 	                </div>
