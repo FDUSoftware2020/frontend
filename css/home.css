@@ -89,6 +89,21 @@ span.tag-line {
 .main-nav div > ul > li:hover > a {
   color: #fff;
 }
+
+.main-nav div > ul > li button {
+  border: none;
+  background: transparent;
+  font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  color: #c1cad1;
+}
+.main-nav div > ul > li button:hover {
+  color: #fff;
+}
+.main-nav div > ul > li:hover > button {
+  color: #fff;
+}
+
 .main-nav div > ul > li:last-child {
   padding-right: 0;
 }

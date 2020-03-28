@@ -9,12 +9,13 @@ var vm = new Vue({
 
     methods: {
         req_login : function() {
-            if(this.id == "" || this.pwd == ""){
+            if(is_logged_in == true){
+                alert("请先登出后再登录！")
+            }
+            else if(this.id == "" || this.pwd == ""){
                 alert("请输入用户名和密码！")
             }else{
-                //var json = '{"username" : "' + this.id + '",' + ' "password" : "' + this.pwd + '"}';
-                //alert(json)
-                axios.post('http://127.0.0.1:5000/account/login', data = {
+                axios.post(url + '/account/login', data = {
                     username : this.id,
                     password : this.pwd
                 }, {
@@ -31,10 +32,11 @@ var vm = new Vue({
             var data = response.data;
             if(data.err_code == 0){
                 alert("登录成功！欢迎" + this.id);
+                location.reload()
             }else{
                 alert("登录失败\n" + data.message);
             }
-            location.reload(); 
+            //location.reload(); 
         }
 
     }

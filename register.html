@@ -45,7 +45,7 @@
                                                                 <li><a href="home.html">Home</a></li>                                                                                                                            
                                                                 <li><a href="sign.html">Sign</a></li>
                                                                 <li><a href="register.html">Register</a></li>
-                                                                <li><a href="#">User</a>
+                                                                <li><a href="#" id = "User_Name">User</a>
                                                                         <ul class="sub-menu">
                                                                                 <li><a>wait</a></li>
                                                                                 <li><a>for</a></li>
@@ -53,6 +53,7 @@
                                                                                 <li><a>detail</a></li>
                                                                         </ul>
                                                                 </li>
+                                                                <li><button onclick="req_logout()">Logout</button>></li>
                                                         </ul>
                                                 </div>
                                         </nav>
@@ -75,9 +76,12 @@
 			        <form method="post" action="">
 				        <ul class="group_input">
 					<li><input type="text" class="username required" id="username" placeholder="Username" v-model = "id"/></li>
-					<li><input type="password" class="psd required" id="password" placeholder="Password" v-model = "pwd"/></li>
+                                        <li><input type="password" class="psd required" id="password" placeholder="Password" v-model = "pwd"/></li>
+                                        <li><input type="password" class="psd required" id="password_re" placeholder="Password Again" v-model = "pwd_re"/></li>
                                         <li><input type="text" class="email required" id="email" placeholder="Email" v-model = "email"/></li>
+                                        <li><input type="text" class="verification required" id="verification" placeholder="请输入邮箱收到的4位验证码" v-model = "verification"/></li>
                                         </ul>
+                                        <button type="button" class="submit_btn" id="btnVerify" v-on:click = "req_verify">发送验证码</button>
                                         <button type="button" class="submit_btn" id="btnSubmit" v-on:click = "req_register">Register</button>
                                         <span class="agreement-tip">Pressing button means signing up 《FSDN Agreement》which is totally non-existent.</span>
 			        </form>
@@ -87,9 +91,10 @@
                 <script src="js/jquery-1.12.4/jquery.min.js"></script>
 	        <script src="js/sweetalert2/sweetalert2.min.js"></script>
 	        <script src="js/particles/particles.min.js"></script>
-	        <script src="js/particles/js/app.js"></script>
+                <script src="js/particles/js/app.js"></script>
+                <script type='text/javascript' src='js/preload.js'></script>
                 <script type='text/javascript' src='js/register.js'></script>
-                
+                <script type='text/javascript' src='js/logout.js'></script>
 
         </body>
 </html>
