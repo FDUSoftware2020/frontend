@@ -11,9 +11,11 @@
                 <link rel="shortcut icon" href="images/icon.png" />
                 <!-- Style Sheet-->
                 <link rel='stylesheet' id='main-css-css'  href='css/home.css' type='text/css' media='all' />
-                
+                <link rel="stylesheet" href="css/base.css">
                 <!-- vue-->
                 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+                <!--Ajax-->
+                <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
         </head>
 
@@ -38,14 +40,16 @@
                                                                 <li><a href="home.html">Home</a></li>                                                                                                                            
                                                                 <li><a href="sign.html">Sign</a></li>
                                                                 <li><a href="register.html">Register</a></li>
-                                                                <li><a href="#">User</a>
+                                                                <li><a href="#" id = "User_Name">User</a>
                                                                         <ul class="sub-menu">
                                                                                 <li><a>wait</a></li>
                                                                                 <li><a>for</a></li>
                                                                                 <li><a>more</a></li>
                                                                                 <li><a>detail</a></li>
+                                                                                <li><button onclick="req_logout()">Logout</button></li>
                                                                         </ul>
                                                                 </li>
+                                                                
                                                         </ul>
                                                 </div>
                                         </nav>
@@ -54,8 +58,9 @@
                         </header>
                 </div>
                 <!-- End of Header -->
-                
-                {% block main %}{% endblock %}
 
+                <script type='text/javascript' src='js/jquery-3.4.1/jquery-3.4.1.min.js'></script>
+                <script type='text/javascript' src='js/preload.js'></script>
+                <script type='text/javascript' src='js/home.js'></script>
         </body>
 </html>

@@ -41,7 +41,7 @@ h2{
 }
 .switch_nav a{
 	color: #878787;
-	font-size: 18px;
+	font-size: 20px;
 	text-align: center;
 	margin:0 10px;
 	display: inline-block;
@@ -78,7 +78,7 @@ h2{
 	background-color: #fff;
 }
 .group_input li {
-	width: 800px;
+	width: 300px;
 	position: relative;
 }
 .group_input li .msg {
@@ -165,38 +165,6 @@ h2{
 	border:1px solid #0f88eb;
 	color: #0f88eb;
 	background-color: transparent;
-}
-.QRcode_btn{
-	position: relative;
-
-}
-.QRcode{
-	position: absolute;
-	background-color: #fff;
-	border-radius: 10px;
-	box-shadow: 0 0 8px 0 rgba(0,0,0,0.5);
-	width: 310px;
-	height: 310px;
-	bottom: 70px;
-	display: none;
-
-}
-.QRcode .box{
-	position: relative;
-	width: 0;
-	height:0;
-	border-left:20px solid transparent;
-	border-right: 20px solid transparent;
-	border-top:20px solid #fff;
-	filter: drop-shadow(1px 1px 5px #878787);
-	left:50%;
-	bottom:0;
-	overflow: hidden;
-	z-index: 1;
-	
-}
-.QRcode img{
-	margin:30px;
 }
 #footer span,#footer a{
 	color: #aebdc9;
