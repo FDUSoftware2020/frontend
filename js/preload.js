@@ -5,7 +5,7 @@ var is_logged_in = false;
 var user_id = "";
 var user_email = "";
 
-function ack_ack_user(response){
+function ack_ask_user(response){
     if(response.data.err_code == -1){
         console.log(response);
         return;
@@ -19,13 +19,13 @@ function ack_ack_user(response){
     }
 }
 
-var url = "http://127.0.0.1:5000"
+var url = "http://182.92.131.202:8000"
 
 //进入页面，首先发送是否已登录的请求,每个页面对应的js文件都有该操作
-axios.get(url + '/account/ack_user', {
+axios.get(url + '/account/ask_user', {
     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 })
-.then(response => (ack_ack_user(response)))
+.then(response => (ack_ask_user(response)))
 .catch(function(error){
     console.log(error);
 });

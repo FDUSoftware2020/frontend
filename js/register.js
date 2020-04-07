@@ -57,7 +57,6 @@ var vm = new Vue({
             }
             //验证发送间隔
             var curtime = new Date().getTime()
-            console.log(curtime)
             if(curtime - this.last_verify_time < 60000){
                 document.getElementById("btnVerify").innerHTML = "发送过于频繁请一分钟后再试";
                 return
