@@ -1,5 +1,6 @@
 //每个网页加载时先进行的工作，主要是重要的全局变量和判断是否在线,每个html文件都需要最先引入
 
+axios.defaults.withCredentials = true
 //判断是否在线的全局变量，每个html页面对应的js文件都有该变量
 var is_logged_in = false;
 var user_id = "";

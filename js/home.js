@@ -9,9 +9,9 @@ jQuery(document).ready(function(e) {
         $(this).children('ul').stop(true, true).slideUp(500);
     });
 
-    $('.sub-menu li').click(function(){
+    /*$('.sub-menu li').click(function(){
         window.location = $(this).children('a').attr('href');
-    });
+    });*/
 
 
 });
