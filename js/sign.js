@@ -15,7 +15,7 @@ var vm = new Vue({
             else if(this.id == "" || this.pwd == ""){
                 alert("请输入用户名和密码！")
             }else{
-                axios.post(url + '/account/login', data = {
+                axios.post(url + '/account/login/', data = {
                     username : this.id,
                     password : this.pwd
                 }, {
@@ -30,6 +30,7 @@ var vm = new Vue({
 
         ack_login : function(response){
             var data = response.data;
+            console.log(data)
             if(data.err_code == 0){
                 alert("登录成功！欢迎" + this.id);
                 location.reload()

@@ -23,7 +23,7 @@ var vm = new Vue({
             }else if(this.verification.length != 4){
                 alert("验证码错误！")
             }else{
-                axios.post(url + '/account/register', data = {
+                axios.post(url + '/account/register/', data = {
                     username : this.id,
                     password : this.pwd,
                     email : this.email,
@@ -64,7 +64,7 @@ var vm = new Vue({
 
             this.last_verify_time = curtime
 
-            axios.post(url + '/account/verify', data = {
+            axios.post(url + '/account/verify/', data = {
                 email : this.email,
             }, {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
