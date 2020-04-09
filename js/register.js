@@ -42,7 +42,7 @@ var vm = new Vue({
             var data = response.data;
             if(data.err_code == 0){
                 alert("恭喜注册成功！请牢记用户名和密码");
-                location.reload()
+                location = 'sign.html'
             }else{
                 alert("注册失败\n" + data.message);
             }

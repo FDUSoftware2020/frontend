@@ -33,7 +33,7 @@ var vm = new Vue({
             console.log(data)
             if(data.err_code == 0){
                 alert("登录成功！欢迎" + this.id);
-                location.reload()
+                location = 'home.html'
             }else{
                 alert("登录失败\n" + data.message);
             }
