@@ -1,61 +1,56 @@
-<!doctype html>
-        <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en-US"> <![endif]-->
-        <!--[if IE 7]>    <html class="lt-ie9 lt-ie8" lang="en-US"> <![endif]-->
-        <!--[if IE 8]>    <html class="lt-ie9" lang="en-US"> <![endif]-->
-        <!--[if gt IE 8]><!--> <html lang="en-US"> <!--<![endif]-->
-        <head>
-                <!-- META TAGS -->
-                <meta charset="UTF-8" />
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+<body>
+        <div id="app">
+                <v-app id="inspire">
+                  <div>
+                    <v-app-bar
+                      color="white"
+                      dense
+                      
+                    >
+                      <v-col md="0.8"></v-col>
 
-                <title>Knowledge Base Theme</title>
+                      <v-img src = "images/logo-new.png" contain max-height="50"></v-img>
+                
+                      <v-col md="0.5"></v-col>
+                        
+                      <v-btn text color = "black">首页</v-btn>
+                      <v-btn text color = "black">问答</v-btn>
+                      <v-btn class = "mr-12" text color = "black">文章</v-btn>
 
+                      <!--强硬方式，增加一条长为5的啥也没有行-->
+                      <v-col md="5"></v-col>    
+                      <v-col md="2" class = "ml-12">
+                        <v-text-field
+                          placeholder="搜索"
+                          dense
+                          hide-details 
+                          outlined
+                          append-icon="search"
+                        ></v-text-field>
+                      </v-col>
 
-                <!-- Style Sheet-->
-                <link rel='stylesheet' id='main-css-css'  href='css/home.css' type='text/css' media='all' />
-                <link rel='stylesheet' id='sign-css-css'  href='css/register.css' type='text/css' media='all' />
+                      <v-btn class = "mr-12" color = "primary">提问</v-btn>
 
-                <!--vue-->
-                <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+                      <v-btn text color = "black">登录</v-btn>
 
-        </head>
+                      <v-btn text color = "black">注册</v-btn>
+                
+                    </v-app-bar>
+                  </div>
+                </v-app>
+        </div>
 
-        <body>
-
-                <!-- Start of Header -->
-                <div class="header-wrapper">
-                        <header>
-                                <div class="container">
-
-
-                                        <div class="logo-container">
-                                                <!-- Website Logo -->
-                                                <a href="home.html"  title="Knowledge Base Theme">
-                                                        <img src="images/logo.png" alt="Knowledge Base Theme">
-                                                </a>
-                                                <span class="tag-line">Fudan Software Developer Network</span>
-                                        </div>
-
-
-                                        <!-- Start of Main Navigation -->
-                                        <nav class="main-nav">
-                                                <div class="menu-top-menu-container">
-                                                        <ul id="menu-top-menu" class="clearfix">
-                                                                <li><a href="home.html">Home</a></li>                                                                                                                            
-                                                                <li><a href = "sign.html">Sign</a></li>
-                                                                <li class="current-menu-item"><a href = "register.html">Register</a></li>
-                                                        </ul>
-                                                </div>
-                                        </nav>
-                                        <!-- End of Main Navigation -->
-
-                                </div>
-                        </header>
-                </div>
-                <!-- End of Header -->
-
-                <!--script-->
-                <script type='text/javascript' src='js/register.js'></script>
-
-        </body>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script type='text/javascript' src='js/register.js'></script>
+</body>
 </html>
