@@ -13,11 +13,11 @@
 <body>
 
     <!--v-app包含该页面所有内容，v-app标签仅能使用一次-->
-    <div id="vuetify_importer">
+    <div id="register_page">
         <v-app>
             <!--导航栏公用代码,详见navigation.js-->
-            <div id="navigation_header">
-                <div v-html="message"></div>
+            <div>
+                <navigation></navigation>
             </div>
 
             <div>
@@ -26,13 +26,13 @@
 
             <div id="register_container" class="mx-auto">
                 <v-form ref="form" lazy-validation>
-                    <v-text-field label="Name" required></v-text-field>
-                    <v-text-field label="E-mail" required></v-text-field>
-                    <v-text-field label="password" type="password" required></v-text-field>
-                    <v-text-field label="password again" type="password" required></v-text-field>
-                    <v-text-field label="收到的四位验证码" :counter="4" required></v-text-field>
-                    <v-btn color="success" class="mr-12">发送验证码</v-btn>
-                    <v-btn color="warning" class="ml-12">注册</v-btn>
+                    <v-text-field label="Name" required v-model="id"></v-text-field>
+                    <v-text-field label="E-mail" required v-model="email"></v-text-field>
+                    <v-text-field label="password" type="password" required v-model="pwd"></v-text-field>
+                    <v-text-field label="password again" type="password" required v-model="pwd_re"></v-text-field>
+                    <v-text-field label="收到的四位验证码" :counter="4" required v-model="verification"></v-text-field>
+                    <v-btn color="success" class="mr-12" @click="req_verify" id="btnVerify" max-width="200" min-width="200">发送验证码</v-btn>
+                    <v-btn color="warning" class="ml-12" @click="req_register">注册</v-btn>
                 </v-form>
             </div>
 
@@ -41,7 +41,7 @@
 
     <script type='text/javascript' src='js/preload.js' charset="UTF-8"></script>
     <script type='text/javascript' src='js/navigation.js' charset="UTF-8"></script>
-    <script type='text/javascript' src='js/vuetify.js' charset="UTF-8"></script>
+    <script type='text/javascript' src='js/register.js' charset="UTF-8"></script>
     
     
     

@@ -1,73 +1,43 @@
-<!doctype html>
-        <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en-US"> <![endif]-->
-        <!--[if IE 7]>    <html class="lt-ie9 lt-ie8" lang="en-US"> <![endif]-->
-        <!--[if IE 8]>    <html class="lt-ie9" lang="en-US"> <![endif]-->
-        <!--[if gt IE 8]><!--> <html lang="en-US"> <!--<![endif]-->
-        <head>
-                <!-- META TAGS -->
-                <meta charset="UTF-8" />
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
 
-                <title>Knowledge Base Theme</title>
+    <!--v-app包含该页面所有内容，v-app标签仅能使用一次-->
+    <div id="login_page">
+        <v-app>
+            <!--导航栏公用代码,详见navigation.js-->
+            <div>
+                <navigation></navigation>
+            </div>
 
+            <div>
+                <v-img src = "images/login.png" contain max-height="80" class="ma-12"></v-img>
+            </div>
 
-                <!-- Style Sheet-->
-                <link rel='stylesheet' id='main-css-css'  href='css/home.css' type='text/css' media='all' />
-                <link rel='stylesheet' id='sign-css-css'  href='css/sign.css' type='text/css' media='all' />
+            <div id="login_container" class="mx-auto">
+                <v-form ref="form" lazy-validation class="ma-12">
+                    <v-text-field label="Name" required v-model="id"></v-text-field>
+                    <v-text-field label="password" type="password" required v-model="pwd"></v-text-field>
+                    <v-btn color="success" @click="req_login" max-width="300" min-width="300">登录</v-btn>
+                </v-form>
+            </div>
 
-                <!--vue-->
-                <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        </v-app>
+    </div>
 
-        </head>
-
-        <body>
-
-                <!-- Start of Header -->
-                <div class="header-wrapper">
-                        <header>
-                                <div class="container">
-
-
-                                        <div class="logo-container">
-                                                <!-- Website Logo -->
-                                                <a href="home.html"  title="Knowledge Base Theme">
-                                                        <img src="images/logo.png" alt="Knowledge Base Theme">
-                                                </a>
-                                                <span class="tag-line">Fudan Software Developer Network</span>
-                                        </div>
-
-
-                                        <!-- Start of Main Navigation -->
-                                        <nav class="main-nav">
-                                                <div class="menu-top-menu-container">
-                                                        <ul id="menu-top-menu" class="clearfix">
-                                                                <li><a href="home.html">Home</a></li>                                                                                                                            
-                                                                <li class="current-menu-item"><a href = "sign.html">Sign</a></li>
-                                                                <li><a href = "register.html">Register</a></li>
-                                                        </ul>
-                                                </div>
-                                        </nav>
-                                        <!-- End of Main Navigation -->
-
-                                </div>
-                        </header>
-                </div>
-                <!-- End of Header -->
-
-
-                <div class = "sign-wrapper">
-                        <div class = "sign-container" id = "vue-sign">
-                                <p class = "sign-welcome">欢迎使用FSDN论坛</p>
-                                <table class = "sign-table" cellspacing = 20>
-                                        <tr><td>登录名</td><td><input type = "text" v-model = "id"></td></tr>
-                                        <tr><td>密码</td><td><input type = "password" v-model = "pwd"></td></tr>
-                                </table>
-                                <p class = "button-sign"><button type = "button" v-on:click = "sign_in">登录</button></p>
-                        </div>
-                </div>
-
-                <!--script-->
-                <script type='text/javascript' src='js/sign.js'></script>
-                
-        </body>
+    <script type='text/javascript' src='js/preload.js' charset="UTF-8"></script>
+    <script type='text/javascript' src='js/navigation.js' charset="UTF-8"></script>
+    <script type='text/javascript' src='js/sign.js' charset="UTF-8"></script>
+    
+</body>
 </html>
