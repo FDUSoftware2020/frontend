@@ -1,14 +1,18 @@
 Vue.component('navigation', {
   template: '<div>\
   <v-app-bar color="white" dense>\
-    <v-col md="0.8"></v-col>\
-    <v-img src = "images/logo_new.png" contain max-height="50"></v-img>\
-    <v-col md="0.5"></v-col>\
+    <v-app-bar-nav-icon>\
+    <v-col md="0.5">\
+    </v-col>\
+    <v-img src = "images/logo_new.png" contain max-height="30"></v-img>\
+    </v-app-bar-nav-icon>\
+    <v-toolbar-title>\
     <v-btn text color = "black" href="home.html">首页</v-btn>\
     <v-btn text color = "black">问答</v-btn>\
     <v-btn class = "mr-12" text color = "black">文章</v-btn>\
-    <v-col md="4"></v-col>\
-    <v-col md="2" class = "ml-12">\
+    </v-toolbar-title>\
+    <v-spacer></v-spacer>\
+    <v-col class = "ml-12">\
       <v-text-field placeholder="搜索" dense hide-details outlined append-icon="search"></v-text-field>\
     </v-col>\
     <v-btn class = "mr-12" color = "primary">提问</v-btn>\
