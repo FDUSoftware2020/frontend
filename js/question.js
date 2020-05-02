@@ -22,12 +22,35 @@ var compare_newest = function(x, y){
 }
 
 Vue.component('single_subcomment',{
-    props:["item"],
+    props:["item", "idx"],
     template: '\
-    <v-card>\
-        <v-card-title>{{item.context}}</v-card-title>\
+    <v-card shaped>\
+        <v-card-title>\
+            {{item.from}} <span class="body-2">&nbsp; &nbsp; 回复&nbsp; &nbsp; </span> {{item.to}}\
+            <v-spacer></v-spacer>\
+            <span class="caption">{{item.pub_date}}</span>\
+        </v-card-title>\
+        <v-card-text class="body-1">\
+            <p class="text--primary">{{item.content}}</p>\
+        </v-card-text>\
+        <v-card-actions>\
+            <v-btn text v-if="!item.IsLiking" min-width="80" max-width="80" @click="comment_like">\
+                <v-icon small left color="grey">mdi-thumb-up</v-icon>\
+                {{item.like_num}}\
+            </v-btn>\
+            <v-btn text color="blue" v-if="item.IsLiking" min-width="80" max-width="80" @click="comment_like">\
+                <v-icon small left>mdi-thumb-up</v-icon>\
+                {{item.like_num}}\
+            </v-btn>\
+            <v-btn text>回复</v-btn>\
+        </v-card-actions>\
     </v-card>\
     ',
+    methods:{
+        comment_like: function(){
+            this.$emit('like_comment', this.idx)
+        },
+    }
 })
 
 Vue.component('single_answer',{
@@ -46,36 +69,95 @@ Vue.component('single_answer',{
             <v-card-actions>\
                 <v-btn text color="blue" @click="like_answer" v-if="!item.IsLiking" min-width="80" max-width="80">赞同{{item.like_num}}</v-btn>\
                 <v-btn outlined color="blue" @click="like_answer" v-if="item.IsLiking" min-width="80" max-width="80">已赞同{{item.like_num}}</v-btn>\
-                <v-btn text color="blue" @click="agree">评论{{item.comment_num}}</v-btn>\
-                <v-btn text color="blue">收藏</v-btn>\
+                <v-btn text color="blue" @click="req_comment_list" v-if="!show_comments" min-width="80">评论{{item.comment_num}}</v-btn>\
+                <v-btn outlined color="blue" @click="pack_up_comments" v-if="show_comments" min-width="80">收起评论</v-btn>\
             </v-card-actions>\
         </v-card>\
-        <div v-if="show_comments">\
-            <single_subcomment v-bind:item="tool" v-for="tool in sub_comments"></single_subcomment>\
+        <v-divider></v-divider>\
+        <div v-if="show_comments" class = "ma-4">\
+            <single_subcomment v-bind:item="tool, idx" v-for="(tool, idx) in sub_comments" v-on:like_comment = "req_comment_like"></single_subcomment>\
         </div>\
     </div>\
     ',
     data: function(){
         return {
             show_comments: false,
-            sub_comments: [
-                {context: '第一条'},
-                {context: '第二条'},
-                {context: '第三条'}
-            ],
+            /*
+            {
+	            "id": <int>,
+	            "from": <str, 发送方>,
+	            "to": <str, 接收方>,
+	            "pub_date": <str, 发布时间>,
+	            "content": <str, 内容>,
+	            "like_num": <str, 点赞数>,
+	            "IsLiking": <bool, True表示当前用户已点赞, False表示未点赞, 未登录时默认False>
+            }
+            */
+            sub_comments: [],
         }
     },
 
     methods:{
+        //点赞一条回答的评论
+        //GET /comment/<int:comment_id>/like/
+        req_comment_like: function(idx){
+            if(!is_logged_in){
+                alert("请先登录！")
+                location = "sign.html"
+            }
+            axios.get(url + '/comment/' + this.sub_comments[idx].id + '/like/', {
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+            .then(response => (this.ack_comment_like(response, idx)))
+            .catch(function(error){
+                console.log(error);
+            });
+        },
+
+        ack_comment_like: function(response, idx){
+            if(response.data.err_code == 0){
+                if(this.sub_comments[idx].IsLiking == false){
+                    this.sub_comments[idx].IsLiking = true
+                    this.sub_comments[idx].like_num = this.sub_comments[idx].like_num + 1
+                }else{
+                    this.sub_comments[idx].IsLiking = false
+                    this.sub_comments[idx].like_num = this.sub_comments[idx].like_num - 1
+                }
+            }else{
+                alert("ops")
+            }
+        },
+
         like_answer: function(){
             this.$emit('like_answer', this.idx)
         },  
 
-        agree: function(){
-            if(this.show_comments){
-                this.show_comments = false
+        pack_up_comments: function(){
+            this.show_comments = false;
+        },
+
+        req_comment_list: function(){
+            this.show_comments = true;
+            //POST /comment/list/
+            axios.post(url + '/comment/list/', data = {
+                target_type: 2,
+	            target_id: this.item.id,
+            }, {
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+            .then(response => (this.ack_comment_list(response)))
+            .catch(function(error){
+                console.log(error);
+            });
+        },
+
+        ack_comment_list: function(response){
+            if(response.data.err_code == -1){
+                alert("oops")
+                return
             }else{
-                this.show_comments = true
+                var data = response.data.data
+                this.sub_comments = data
             }
         }
     },
@@ -134,6 +216,10 @@ new Vue({
         //点赞一条回答
         // GET /issue/answer/<int:answer_id>/like/
         req_answer_like: function(idx){
+            if(!is_logged_in){
+                alert("请先登录！")
+                location = "sign.html"
+            }
             axios.get(url + '/issue/answer/' + this.Answers[idx].id + '/like/', {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })

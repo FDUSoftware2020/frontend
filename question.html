@@ -32,10 +32,16 @@
             
                 <v-card-actions class="ma-4">
                     <v-btn color="primary" class="mr-8" min-width="90">写回答</v-btn>
-                    <v-btn outlined min-width="90"  max-width="90" class="mr-8"  @click="req_issue_collect" v-if="!q_is_collecting">关注{{q_collect_num}}</v-btn>
-                    <v-btn outlined color="blue" min-width="90"  max-width="90" class="mr-8"  @click="req_issue_collect" v-if="q_is_collecting">已关注{{q_collect_num}}</v-btn>
-                    <v-btn outlined min-width="80"  max-width="80" @click="req_issue_like" v-if="!q_is_liking">赞{{q_like_num}}</v-btn>
-                    <v-btn outlined color="blue" min-width="80"  max-width="80" @click="req_issue_like" v-if="q_is_liking">已赞{{q_like_num}}</v-btn>
+                    <v-btn outlined min-width="90"  max-width="90" class="mr-8"  @click="req_issue_collect" v-if="!q_is_collecting">关注 {{q_collect_num}}</v-btn>
+                    <v-btn outlined color="blue" min-width="90"  max-width="90" class="mr-8"  @click="req_issue_collect" v-if="q_is_collecting">已关注 {{q_collect_num}}</v-btn>
+                    <v-btn outlined min-width="80"  max-width="80" @click="req_issue_like" v-if="!q_is_liking">
+                        <v-icon color="grey" left>mdi-thumb-up</v-icon>
+                        {{q_like_num}}
+                    </v-btn>
+                    <v-btn outlined color="blue" min-width="80"  max-width="80" @click="req_issue_like" v-if="q_is_liking">
+                        <v-icon left>mdi-thumb-up</v-icon>
+                        {{q_like_num}}
+                    </v-btn>
                     <v-spacer></v-spacer>
                     <p>{{author}} 提问于 {{pub_date}}</p>
                 </v-card-actions>
