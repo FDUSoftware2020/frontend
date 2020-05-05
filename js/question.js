@@ -192,6 +192,10 @@ new Vue({
         Answers:[]
     },
     mounted (){
+        //首先获取questionid
+        this.question_id = this.get_question_id("question_id");
+        //alert(this.question_id)
+
         //首先获取issue详细信息
         //GET /issue/<int:issue_id>/detail/
         axios.get(url + '/issue/' + this.question_id + '/detail/', {
@@ -213,6 +217,18 @@ new Vue({
 
     },
     methods:{
+        //从url参数中获取问题的id
+        get_question_id: function(name){
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg); //获取url中"?"符后的字符串并正则匹配
+            var context = "";
+            if (r != null)
+            context = r[2];
+            reg = null;
+            r = null;
+            return context == null || context == "" || context == "undefined" ? "" : context;
+        },
+
         //点赞一条回答
         // GET /issue/answer/<int:answer_id>/like/
         req_answer_like: function(idx){
