@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+
+    <!--v-app包含该页面所有内容，v-app标签仅能使用一次-->
+    <div id="article_page">
+        <v-app>
+            <!--导航栏公用代码,详见navigation.js-->
+            <div>
+                <navigation></navigation>
+            </div>   
+            
+            <div class="ma-12">
+                <v-card class="ma-12" outlined>
+                    
+                    <v-card-title class="ma-3"><h2>{{title}}</h2></v-card-title>
+                    <v-divider></v-divider>
+                    <v-card-title class="ma-3">
+                        <h3>{{author}}</h3>
+                    </v-card-title>
+                    <v-card-text class="ma-3">
+                        <h4>{{q_like_num}}人赞了这篇文章</h4>
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-text class="ma-3">
+                        <h3>{{content}}</h3>
+                    </v-card-text>
+                    
+                </v-card>
+                <v-card-actions class="ma-12">
+                    <!--
+                    <v-btn color="primary" class="mr-8" min-width="90">写评论</v-btn>
+                    -->
+                    <v-btn outlined min-width="90"  max-width="90" class="mr-8"  @click="req_issue_collect" v-if="!q_is_collecting">关注 {{q_collect_num}}</v-btn>
+                    <v-btn outlined color="blue" min-width="90"  max-width="90" class="mr-8"  @click="req_issue_collect" v-if="q_is_collecting">已关注 {{q_collect_num}}</v-btn>
+                    <v-btn outlined min-width="80"  max-width="80" @click="req_issue_like" v-if="!q_is_liking">
+                        <v-icon color="grey" left>mdi-thumb-up</v-icon>
+                        {{q_like_num}}
+                    </v-btn>
+                    <v-btn outlined color="blue" min-width="80"  max-width="80" @click="req_issue_like" v-if="q_is_liking">
+                        <v-icon left>mdi-thumb-up</v-icon>
+                        {{q_like_num}}
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                    <p>{{author}} 编辑于 {{pub_date}}</p>
+                </v-card-actions>
+            </div>
+
+            <div class="ma-12">
+                <v-card class="ma-12" outlined>
+                    <v-banner single-line transition="slide-y-transition" class="font-weight-bold">
+                        <span>{{comments.length}}个评论</span>
+                        <template v-slot:actions="{ dismiss }">
+                          <v-btn text @click="sort_newest">最新</v-btn>
+                          <v-btn text @click="sort_hotest">最热</v-btn>
+                        </template>
+                    </v-banner>
+                    <v-card-actions class="ma-3">
+                        <v-text-field label="在此可以输入评论" multi-line=true required v-model="__comment"></v-text-field>
+                        <v-btn color="success" @click="pub_comment" max-width="80" min-width="80">发布</v-btn>
+                    </v-card-actions>
+                    
+                    <v-divider></v-divider>
+                    <single_comment v-bind:item="tool, idx" v-for="(tool, idx) in comments" v-on:like_comment = "req_comment_like"></single_comment>
+                    
+                </v-card>
+            </div>
+
+    </div>
+
+    <script type='text/javascript' src='js/preload.js' charset="UTF-8"></script>
+    <script type='text/javascript' src='js/navigation.js' charset="UTF-8"></script>
+    <script type='text/javascript' src='js/article.js' charset="UTF-8"></script>
+    
+</body>
+</html>
