@@ -1,5 +1,5 @@
 Vue.use(MavonEditor)
-Vue.use(VueMarkdown);
+Vue.use(VueMarkdown)
 
 Vue.component('editor_header', {
     props: ['page_name'],
