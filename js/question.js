@@ -569,7 +569,7 @@ new Vue({
                     console.log(res);
                     window.alert(res.data.message);
                 }else{
-                    res_img_list = res.data.data.img_list
+                    res_img_list = res.data.data
                     for (var img_pos in res_img_list) {
                         // 将md源码中图片文件名替换为url
                         this.$refs.md.img2Url(img_pos, res_img_list[img_pos]);
