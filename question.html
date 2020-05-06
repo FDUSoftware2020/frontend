@@ -12,6 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mavon-editor@2.9.0/dist/mavon-editor.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-markdown@2.2.4/dist/vue-markdown.js"></script>
 </head>
 <body>
 
@@ -28,9 +29,9 @@
 
                 <v-card-title class="ma-3"><h2>{{title}}</h2></v-card-title>
 
-                <v-card-text class="ma-3">
-                    <h3>{{content}}</h3>
-                </v-card-text>
+                <div class="ma-7">
+                    <vue-markdown v-bind:source="content"></vue-markdown>
+                </div>
             
                 <v-card-actions class="ma-4">
                     <v-btn color="primary" class="mr-8" min-width="90" @click="show_make_answer=!show_make_answer" v-if="!show_make_answer">写回答</v-btn>

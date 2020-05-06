@@ -145,9 +145,9 @@ Vue.component('single_answer',{
                 <v-spacer></v-spacer>\
                 <p class="body-2">发布于 {{item.pub_date}}</p>\
             </v-card-title>\
-            <v-card-text class="body-1">\
-                <p class="text--primary">{{item.content}}</p>\
-            </v-card-text>\
+            <div class = "ma-4">\
+                <vue-markdown v-bind:source="item.content"></vue-markdown>\
+            </div>\
             <v-card-actions>\
                 <v-btn text color="blue" @click="like_answer" v-if="!item.IsLiking" min-width="80" max-width="80">赞同{{item.like_num}}</v-btn>\
                 <v-btn outlined color="blue" @click="like_answer" v-if="item.IsLiking" min-width="80" max-width="80">已赞同{{item.like_num}}</v-btn>\
@@ -334,7 +334,7 @@ new Vue({
     data:{
         question_id : '17307130009', //当前页面显示的问题id
         title: "",
-        content: "",
+        content: "999999",
         pub_date: "",
         author: "",
         q_is_liking : false,
