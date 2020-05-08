@@ -73,19 +73,19 @@ Vue.component('editor_header', {
       },
     },
   
-  });
+});
 
-  Vue.component('markdown_editor', {
+Vue.component('markdown_editor', {
     template: `<div>\
-    <mavon-editor 
-        ref=md \
-        v-model="value" \
-        @imgAdd="$img_add" \
-        @imgDel="$img_del"\
-        @change="update_content()"\
-    >\
-    </mavon-editor>\
-  </div>`,
+      <mavon-editor 
+          ref=md \
+          v-model="value" \
+          @imgAdd="$img_add" \
+          @imgDel="$img_del"\
+          @change="update_content()"\
+      >\
+      </mavon-editor>\
+    </div>`,
     data () {
         return {
             value: '',
@@ -98,7 +98,6 @@ Vue.component('editor_header', {
         },
         $img_del(pos){
             this.$emit('delete_img', pos);
-            delete this.img_file[pos];
         },
         update_content(){
             this.$emit('update_content', this.value);
@@ -109,5 +108,5 @@ Vue.component('editor_header', {
         },
     },
   
-  });
+});
   

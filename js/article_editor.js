@@ -27,14 +27,12 @@ new Vue({
                 return;
             }
             
-            var formdata = {};
-            for(var img_pos in this.img_file){
-                formdata[img_pos] = this.img_file[img_pos];
+            var formdata = new FormData();
+            for(var _img in this.img_file){
+                formdata.append(_img, this.img_file[_img]);
             }
 
-            await axios.post(url + '/image/upload/', data = {
-                img_list : formdata,
-            }, {
+            await axios.post(url + '/image/upload/', data = formdata, {
                 headers: {'Content-Type': 'multipart/form-data'}
             }).then((res) => {
                 /**
