@@ -146,7 +146,7 @@ Vue.component('single_answer',{
                 <v-spacer></v-spacer>\
                 <p class="body-2">发布于 {{item.pub_date}}</p>\
             </v-card-title>\
-            <div class = "ma-4">\
+            <div class = "ma-4 show-markdown">\
                 <vue-markdown v-bind:source="item.content"></vue-markdown>\
             </div>\
             <v-card-actions>\
