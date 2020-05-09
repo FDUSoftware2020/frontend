@@ -81,7 +81,8 @@ Vue.component('single_subcomment',{
             axios.post(url + '/comment/create/', data = {
                 target_type: 3,
                 target_id: this.item.id,
-                content: this.comment_content
+                content: this.subcomment_content,
+                parent_comment_id: this.item.id,
             }, {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
@@ -272,7 +273,8 @@ Vue.component('single_answer',{
             axios.post(url + '/comment/create/', data = {
                 target_type: 2,
                 target_id: this.item.id,
-                content: this.comment_content
+                parent_comment_id: -1,
+                content: this.comment_content,
             }, {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
