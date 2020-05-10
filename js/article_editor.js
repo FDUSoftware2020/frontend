@@ -68,8 +68,9 @@ new Vue({
                     window.alert(res.data.message);
                     return;
                 }else{
-                    // 跳转到文章页面, 待修改
-                    // window.location.href = url + "/question.html";
+                    // 跳转到创建的文章页面
+                    var article_id = res.data.data
+                    location = "article.html?article_id=" + article_id.toString();
                     console.log(res);
                 }
             }).catch(function(error){

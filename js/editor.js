@@ -69,7 +69,18 @@ Vue.component('editor_header', {
 
       // 检查是否登录，否则跳转到登录页
       async checkLogin() {
-
+        await axios.get(url + '/account/ask_login_user/', {
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+        .then(response => (ack_ask_login_user(response)))
+        .catch(function(error){
+            console.log(error);
+        });
+        if(!is_logged_in){
+          alert("请先登录！")
+          location = "sign.html"
+          return
+        }
       },
     },
   

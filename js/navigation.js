@@ -24,7 +24,7 @@ Vue.component('navigation', {
       @click:append="search"\
       @keyup.enter="search"></v-text-field>\
     </v-col>\
-    <v-btn class = "mr-12" color = "primary">提问</v-btn>\
+    <v-btn class = "mr-12" color = "primary" href="question_editor.html">提问</v-btn>\
     <v-btn text color = "black" href="sign.html">登录</v-btn>\
     <v-btn text color = "black" href="register.html">注册</v-btn>\
     <v-menu>\

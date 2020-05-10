@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/mavon-editor@2.9.0/dist/css/index.css" rel="stylesheet">
+    <link href="css/markdown.css" rel="stylesheet" type="text/css">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
@@ -29,7 +30,7 @@
 
                 <v-card-title class="ma-3"><h2>{{title}}</h2></v-card-title>
 
-                <div class="ma-7">
+                <div class="ma-7 show-markdown">
                     <vue-markdown v-bind:source="content"></vue-markdown>
                 </div>
             

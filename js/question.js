@@ -81,7 +81,8 @@ Vue.component('single_subcomment',{
             axios.post(url + '/comment/create/', data = {
                 target_type: 3,
                 target_id: this.item.id,
-                content: this.comment_content
+                content: this.subcomment_content,
+                parent_comment_id: this.item.id,
             }, {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
@@ -145,7 +146,7 @@ Vue.component('single_answer',{
                 <v-spacer></v-spacer>\
                 <p class="body-2">发布于 {{item.pub_date}}</p>\
             </v-card-title>\
-            <div class = "ma-4">\
+            <div class = "ma-4 show-markdown">\
                 <vue-markdown v-bind:source="item.content"></vue-markdown>\
             </div>\
             <v-card-actions>\
@@ -272,7 +273,8 @@ Vue.component('single_answer',{
             axios.post(url + '/comment/create/', data = {
                 target_type: 2,
                 target_id: this.item.id,
-                content: this.comment_content
+                parent_comment_id: -1,
+                content: this.comment_content,
             }, {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
