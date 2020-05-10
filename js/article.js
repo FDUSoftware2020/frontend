@@ -219,7 +219,7 @@ Vue.component('single_comment',{
             if(!r){
                 return
             }
-
+            
             axios.get(url + '/comment/' + this.item.id + '/delete/', {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
