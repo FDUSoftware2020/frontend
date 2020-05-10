@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
@@ -25,7 +26,7 @@
             <v-list-item>
               <v-list-item-avatar color="grey"></v-list-item-avatar>
               <v-list-item-content>
-                <v-list-item-title class="headline">{{artical.title}}</v-list-item-title>
+                <v-list-item-title class="headline" @click="more_detail(i)">{{artical.title}}</v-list-item-title>
                 <v-list-item-subtitle>——{{artical.author}}  {{artical.pub_date}}</v-list-item-subtitle>
               </v-list-item-content>
               </v-list-item>
@@ -34,7 +35,7 @@
               </v-card-text>
                 
             <v-card-actions>
-              <v-btn text color="blue accent-4">more</v-btn>
+              <v-btn text color="blue accent-4" @click="more_detail(i)">more</v-btn>
               
               <v-spacer></v-spacer>
               <v-btn icon :color="like_icon(i)" @click="like(i)">

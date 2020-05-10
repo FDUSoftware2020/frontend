@@ -119,6 +119,10 @@ new Vue({
 			},
 			
 			like: function(i){
+				if(!is_logged_in){
+					alert("请先登录！")
+					location = "sign.html"
+				}
 				this.detail[i].IsLiking = !this.detail[i].IsLiking
 				if(this.detail[i].IsLiking){
 					this.detail[i].like_num += 1
@@ -138,6 +142,10 @@ new Vue({
 				});
 			},
 			collect: function(i){
+				if(!is_logged_in){
+					alert("请先登录！")
+					location = "sign.html"
+				}
 				this.detail[i].IsCollecting = !this.detail[i].IsCollecting
 				if(this.detail[i].IsCollecting){
 					this.detail[i].collect_num += 1
@@ -153,6 +161,15 @@ new Vue({
 				.catch(function(error){
 					console.log(error);
 				});
+			},
+
+			more_detail: function(i){
+				if(this.detail[i].type == 0){
+					window.location.href = "question.html?question_id=" + this.detail[i].id
+				  }
+				  else{
+					window.location.href = "article.html?article_id=" + this.detail[i].id
+				  }
 			},
 
 			ack_search: function(response){
