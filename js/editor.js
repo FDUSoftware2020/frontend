@@ -1,4 +1,5 @@
 Vue.use(MavonEditor)
+Vue.use(VueMarkdown)
 
 Vue.component('editor_header', {
     props: ['page_name'],
@@ -68,23 +69,34 @@ Vue.component('editor_header', {
 
       // 检查是否登录，否则跳转到登录页
       async checkLogin() {
-
+        await axios.get(url + '/account/ask_login_user/', {
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+        .then(response => (ack_ask_login_user(response)))
+        .catch(function(error){
+            console.log(error);
+        });
+        if(!is_logged_in){
+          alert("请先登录！")
+          location = "sign.html"
+          return
+        }
       },
     },
   
-  });
+});
 
-  Vue.component('markdown_editor', {
+Vue.component('markdown_editor', {
     template: `<div>\
-    <mavon-editor 
-        ref=md \
-        v-model="value" \
-        @imgAdd="$img_add" \
-        @imgDel="$img_del"\
-        @change="update_content()"\
-    >\
-    </mavon-editor>\
-  </div>`,
+      <mavon-editor 
+          ref=md \
+          v-model="value" \
+          @imgAdd="$img_add" \
+          @imgDel="$img_del"\
+          @change="update_content()"\
+      >\
+      </mavon-editor>\
+    </div>`,
     data () {
         return {
             value: '',
@@ -97,7 +109,6 @@ Vue.component('editor_header', {
         },
         $img_del(pos){
             this.$emit('delete_img', pos);
-            delete this.img_file[pos];
         },
         update_content(){
             this.$emit('update_content', this.value);
@@ -108,5 +119,5 @@ Vue.component('editor_header', {
         },
     },
   
-  });
+});
   

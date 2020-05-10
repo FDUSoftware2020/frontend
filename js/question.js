@@ -24,6 +24,7 @@ var compare_newest = function(x, y){
 Vue.component('single_subcomment',{
     props:["item", "idx"],
     template: '\
+    <div class="mb-2">\
     <v-card shaped>\
         <v-card-title>\
             {{item.from}} <span class="body-2">&nbsp; &nbsp; 回复&nbsp; &nbsp; </span> {{item.to}}\
@@ -42,14 +43,96 @@ Vue.component('single_subcomment',{
                 <v-icon small left>mdi-thumb-up</v-icon>\
                 {{item.like_num}}\
             </v-btn>\
-            <v-btn text>回复</v-btn>\
+            <v-btn text @click="show_response_editor=!show_response_editor" v-if="!show_response_editor">回复</v-btn>\
+            <v-btn text @click="show_response_editor=!show_response_editor" v-if="show_response_editor" color="blue">收起</v-btn>\
+            <v-btn text small color="grey" v-if="current_user_id == item.from" @click="req_comment_delete">删除</v-btn>\
+            <v-spacer></v-spacer>\
+            <v-btn color="primary" v-if="show_response_editor" class="mr-2" min-width="80" @click="req_comment_respond">发布回复</v-btn>\
         </v-card-actions>\
     </v-card>\
+    <v-textarea label="输入你的评论内容" outlined color="blue" height="50" v-if="show_response_editor" class="mt-2" v-model = "subcomment_content"></v-textarea>\
+    </div>\
     ',
+    data: function(){
+        return{
+            current_user_id : user_id,
+            show_response_editor : false,
+            subcomment_content : "",
+        }
+    },
     methods:{
         comment_like: function(){
             this.$emit('like_comment', this.idx)
         },
+
+        req_comment_respond: function(){
+            if(!is_logged_in){
+                alert("请先登录！")
+                location = "sign.html"
+                return;
+            }
+
+            if(this.subcomment_content == ''){
+                alert("回复不能为空")
+                return;
+            }
+
+            //POST /comment/create/
+            axios.post(url + '/comment/create/', data = {
+                target_type: 3,
+                target_id: this.item.id,
+                content: this.subcomment_content,
+                parent_comment_id: this.item.id,
+            }, {
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+            .then(response => (this.ack_comment_respond(response)))
+            .catch(function(error){
+                console.log(error);
+            });
+
+        },
+
+        ack_comment_respond: function(response){
+            var data = response.data
+            if(data.err_code == -1){
+                alert("ack_comment_respond failed")
+            }else{
+                alert("发布成功")
+                this.$emit('comment_respond')
+            }
+        },
+
+        //删除回复
+        //GET /comment/<int:comment_id>/delete/
+        req_comment_delete: function(){
+            if(user_id != this.item.from || !is_logged_in){
+                alert("无法删除")
+                return
+            }
+            var r = confirm("是否确认删除")
+            if(!r){
+                return
+            }
+
+            axios.get(url + '/comment/' + this.item.id + '/delete/', {
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+            .then(response => (this.ack_comment_delete(response)))
+            .catch(function(error){
+                console.log(error);
+            });
+        },
+
+        ack_comment_delete: function(response){
+            var data = response.data
+            if(data.err_code == -1){
+                alert("ack_comment_delete failed")
+                return
+            }
+            alert("删除成功")
+            this.$emit('comment_delete')
+        }
     }
 })
 
@@ -63,24 +146,36 @@ Vue.component('single_answer',{
                 <v-spacer></v-spacer>\
                 <p class="body-2">发布于 {{item.pub_date}}</p>\
             </v-card-title>\
-            <v-card-text class="body-1">\
-                <p class="text--primary">{{item.content}}</p>\
-            </v-card-text>\
+            <div class = "ma-4 show-markdown">\
+                <vue-markdown v-bind:source="item.content"></vue-markdown>\
+            </div>\
             <v-card-actions>\
                 <v-btn text color="blue" @click="like_answer" v-if="!item.IsLiking" min-width="80" max-width="80">赞同{{item.like_num}}</v-btn>\
                 <v-btn outlined color="blue" @click="like_answer" v-if="item.IsLiking" min-width="80" max-width="80">已赞同{{item.like_num}}</v-btn>\
                 <v-btn text color="blue" @click="req_comment_list" v-if="!show_comments" min-width="80">评论{{item.comment_num}}</v-btn>\
                 <v-btn outlined color="blue" @click="pack_up_comments" v-if="show_comments" min-width="80">收起评论</v-btn>\
+                <v-btn text small color="grey" v-if="current_user_id == item.author" @click="req_answer_delete">删除</v-btn>\
+                <v-spacer></v-spacer>\
+                <v-btn color="primary" v-if="show_comments" min-width="100" @click="req_comment_create">发布评论</v-btn>\
             </v-card-actions>\
         </v-card>\
         <v-divider></v-divider>\
         <div v-if="show_comments" class = "ma-4">\
-            <single_subcomment v-bind:item="tool, idx" v-for="(tool, idx) in sub_comments" v-on:like_comment = "req_comment_like"></single_subcomment>\
+            <v-textarea label="输入你的评论内容" outlined color="blue" height="100" v-model="comment_content"></v-textarea>\
+            <single_subcomment \
+                v-bind:item="tool, idx" \
+                v-for="(tool, idx) in sub_comments" \
+                v-on:like_comment = "req_comment_like"\
+                v-on:comment_respond = "req_comment_list"\
+                v-on:comment_delete = "req_comment_list">\
+            </single_subcomment>\
         </div>\
     </div>\
     ',
     data: function(){
         return {
+            current_user_id : user_id,
+            comment_content: "",
             show_comments: false,
             /*
             {
@@ -104,6 +199,7 @@ Vue.component('single_answer',{
             if(!is_logged_in){
                 alert("请先登录！")
                 location = "sign.html"
+                return
             }
             axios.get(url + '/comment/' + this.sub_comments[idx].id + '/like/', {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -153,13 +249,82 @@ Vue.component('single_answer',{
 
         ack_comment_list: function(response){
             if(response.data.err_code == -1){
-                alert("oops")
+                alert("ack_comment_list failed")
                 return
             }else{
                 var data = response.data.data
                 this.sub_comments = data
             }
+        },
+
+        req_comment_create: function(){
+            if(!is_logged_in){
+                alert("请先登录！")
+                location = "sign.html"
+                return
+            }
+
+            if(this.comment_content == ''){
+                alert("评论不能为空")
+                return;
+            }
+
+            //POST /comment/create/
+            axios.post(url + '/comment/create/', data = {
+                target_type: 2,
+                target_id: this.item.id,
+                parent_comment_id: -1,
+                content: this.comment_content,
+            }, {
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+            .then(response => (this.ack_comment_create(response)))
+            .catch(function(error){
+                console.log(error);
+            });
+        },
+
+        ack_comment_create: function(response){
+            var data = response.data;
+            if(data.err_code == -1){
+                alert("ack_comment_create failed")
+            }else{
+                alert("发布成功")
+                this.req_comment_list();
+            }
+        },
+
+        //删除回答
+        //GET /issue/answer/<int:answer_id>/delete/
+        req_answer_delete: function(){
+            if(user_id != this.item.author || !is_logged_in){
+                alert("无法删除")
+                return
+            }
+            var r = confirm("是否确认删除")
+            if(!r){
+                return
+            }
+
+            axios.get(url + '/issue/answer/' + this.item.id + '/delete/', {
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+            .then(response => (this.ack_answer_delete(response)))
+            .catch(function(error){
+                console.log(error);
+            });
+        },
+
+        ack_answer_delete: function(response){
+            var data = response.data
+            if(data.err_code == -1){
+                alert("ack_answer_delete failed")
+                return
+            }
+            alert("删除成功")
+            location.reload()
         }
+        
     },
   });
 
@@ -171,13 +336,14 @@ new Vue({
     data:{
         question_id : '17307130009', //当前页面显示的问题id
         title: "",
-        content: "",
+        content: "999999",
         pub_date: "",
         author: "",
         q_is_liking : false,
         q_is_collecting : false,
         q_like_num : 0,
         q_collect_num : 0,
+        show_make_answer : false,
         /*
         {
             "id": <int>,
@@ -189,9 +355,17 @@ new Vue({
 	        "comment_num": <int, 评论数目>
         }
         */
-        Answers:[]
+        Answers:[],
+
+        //回答问题部分
+        answer_content : "",
+        img_file: {},
     },
     mounted (){
+        //首先获取questionid
+        this.question_id = this.get_question_id("question_id");
+        //alert(this.question_id)
+
         //首先获取issue详细信息
         //GET /issue/<int:issue_id>/detail/
         axios.get(url + '/issue/' + this.question_id + '/detail/', {
@@ -213,12 +387,25 @@ new Vue({
 
     },
     methods:{
+        //从url参数中获取问题的id
+        get_question_id: function(name){
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg); //获取url中"?"符后的字符串并正则匹配
+            var context = "";
+            if (r != null)
+            context = r[2];
+            reg = null;
+            r = null;
+            return context == null || context == "" || context == "undefined" ? "" : context;
+        },
+
         //点赞一条回答
         // GET /issue/answer/<int:answer_id>/like/
         req_answer_like: function(idx){
             if(!is_logged_in){
                 alert("请先登录！")
                 location = "sign.html"
+                return
             }
             axios.get(url + '/issue/answer/' + this.Answers[idx].id + '/like/', {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -249,6 +436,7 @@ new Vue({
             if(!is_logged_in){
                 alert("请先登录！")
                 location = "sign.html"
+                return
             }
 
             axios.get(url + '/issue/' + this.question_id + '/collect/', {
@@ -280,6 +468,7 @@ new Vue({
             if(!is_logged_in){
                 alert("请先登录！")
                 location = "sign.html"
+                return
             }
 
             axios.get(url + '/issue/' + this.question_id + '/like/', {
@@ -333,6 +522,80 @@ new Vue({
 
         sort_newest: function(){
             this.Answers.sort(compare_newest)
+        },
+
+        //回答问题部分
+        // 绑定@imgAdd event
+        $update_content(content){
+            this.answer_content = content;
+        },
+        $img_add(pos, $file){
+            // 缓存图片信息
+            this.img_file[pos] = $file;
+        },
+        $img_del(pos){
+            delete this.img_file[pos];
+        },
+
+        //POST /issue/<int:issue_id>/answer/create/</int>
+        create_answer: async function(){
+            if(!is_logged_in){
+                alert("请先登录！")
+                location = "sign.html"
+                return
+            }
+
+            // 第一步, 检查标题和问题内容是否符合要求
+            if (this.answer_content == ''){
+                window.alert('问题内容为空!');
+                return;
+            }
+
+            var formdata = new FormData();
+            for(var _img in this.img_file){
+                formdata.append(_img, this.img_file[_img]);
+            }
+
+            await axios.post(url + '/image/upload/', data = formdata, {
+                headers: {'Content-Type': 'multipart/form-data'}
+            }).then((res) => {
+                /**
+                 * 例如：返回数据为 res.data.data.img_list = {pos1: url1, pos2: url2, ...}
+                 * pos 为原图片标志（0）
+                 * url 为上传后图片的url地址
+                 */
+                // 第三步, 将返回的url替换到文本原位置![...](0) -> ![...](url)
+                if(res.data.err_code == -1){
+                    console.log(res);
+                    window.alert(res.data.message);
+                }else{
+                    res_img_list = res.data.data
+                    for (var img_pos in res_img_list) {
+                        // 将md源码中图片文件名替换为url
+                        this.$refs.md.img2Url(img_pos, res_img_list[img_pos]);
+                    }
+                }
+            }).catch(function(error){
+                console.log(error);
+            });
+
+            // 第四步, 将问题的md源码发送给后端
+            await axios.post(url + '/issue/' + this.question_id + '/answer/create/', data = {
+                "content": this.answer_content
+            }, {
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then((res) => {
+                if(res.data.err_code == -1){
+                    console.log(res);
+                    window.alert(res.data.message);
+                    return;
+                }else{
+                    alert("发布成功！")
+                    location.reload();
+                }
+            }).catch(function(error){
+                console.log(error);
+            });
         }
     },
 })

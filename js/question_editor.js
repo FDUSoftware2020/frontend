@@ -27,14 +27,12 @@ new Vue({
                 return;
             }
             
-            var formdata = {};
-            for(var img_pos in this.img_file){
-                formdata[img_pos] = this.img_file[img_pos];
+            var formdata = new FormData();
+            for(var _img in this.img_file){
+                formdata.append(_img, this.img_file[_img]);
             }
 
-            await axios.post(url + '/image/upload/', data = {
-                img_list : formdata,
-            }, {
+            await axios.post(url + '/image/upload/', data = formdata, {
                 headers: {'Content-Type': 'multipart/form-data'}
             }).then((res) => {
                 /**
@@ -47,7 +45,7 @@ new Vue({
                     console.log(res);
                     window.alert(res.data.message);
                 }else{
-                    res_img_list = res.data.data.img_list
+                    res_img_list = res.data.data
                     for (var img_pos in res_img_list) {
                         // 将md源码中图片文件名替换为url
                         this.$refs.md.img2Url(img_pos, res_img_list[img_pos]);
@@ -70,8 +68,9 @@ new Vue({
                     window.alert(res.data.message);
                     return;
                 }else{
-                    // 跳转到问题页面, 待修改
-                    // window.location.href = url + "/question.html";
+                    // 跳转到创建的问题页面
+                    var question_id = res.data.data
+                    location = "question.html?question_id=" + question_id.toString();
                     console.log(res);
                 }
             }).catch(function(error){
