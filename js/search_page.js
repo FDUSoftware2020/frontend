@@ -164,7 +164,7 @@ new Vue({
 			},
 
 			more_detail: function(i){
-				if(this.detail[i].type == 1){
+				if(this.detail[i].type == 0){
 					window.location.href = "question.html?question_id=" + this.detail[i].id
 				  }
 				  else{
