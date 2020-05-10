@@ -313,16 +313,16 @@ new Vue({
     vuetify: new Vuetify(),
 
     data: {
-        article_id : "12345",
-        title : "1",
-        content : "2",
-        author : "3",
-        pub_date: "4",
+        article_id : "",
+        title : "",
+        content : "",
+        author : "",
+        pub_date: "",
         q_is_liking : false,
         q_is_collecting : false,
         q_like_num : 0,
         q_collect_num : 0,
-        comments : ["123"],
+        comments : [],
         __comment : ""
     },
     mounted (){
@@ -432,7 +432,7 @@ new Vue({
                 location = "sign.html"
             }
 
-            axios.get(url + '/issue/' + this.question_id + '/collect/', {
+            axios.get(url + '/issue/' + this.article_id + '/collect/', {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
             .then(response => (this.ack_issue_collect(response)))
@@ -463,7 +463,7 @@ new Vue({
                 location = "sign.html"
             }
 
-            axios.get(url + '/issue/' + this.question_id + '/like/', {
+            axios.get(url + '/issue/' + this.article_id + '/like/', {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
             .then(response => (this.ack_issue_like(response)))
