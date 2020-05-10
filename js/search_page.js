@@ -89,11 +89,11 @@ new Vue({
 		},
 		methods: {
 			send_keyword: function(){
-				key = window.location.href.split('=')[1]
+				key = decodeURI(window.location.href.split('=')[1])
 				axios.post(url + '/issue/search/', data = {
 					keyword : key
 				}, {
-					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+					headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
 				})
 				.then(response => (this.ack_search(response)))
 				.catch(function(error){
