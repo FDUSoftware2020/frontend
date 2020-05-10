@@ -89,11 +89,11 @@ new Vue({
     },
     methods: {
         load_recommendation: function(){
-            key = "操作系统"
+            key = "？"
             axios.post(url + '/issue/search/', data = {
                 keyword : key
             }, {
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}
             })
             .then(response => (this.ack_search(response)))
             .catch(function(error){
@@ -101,11 +101,12 @@ new Vue({
             });
         },
         send_keyword: function(){
-            key = window.location.href.split('=')[1]
+            key = decodeURI(window.location.href.split('=')[1])
             axios.post(url + '/issue/search/', data = {
                 keyword : key
             }, {
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                }
             })
             .then(response => (this.ack_search(response)))
             .catch(function(error){
@@ -186,6 +187,7 @@ new Vue({
 
         ack_search: function(response){
             var data = response.data
+            console.log(response)
             if(data.err_code == 0){
                 this.detail = data.data
             }else{
