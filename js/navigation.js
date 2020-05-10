@@ -1,5 +1,5 @@
 Vue.component('navigation', {
-  template: '<div>\
+  template: `<div>\
   <v-app-bar color="white" dense>\
     <v-app-bar-nav-icon>\
     <v-col md="0.5">\
@@ -9,7 +9,7 @@ Vue.component('navigation', {
     <v-toolbar-title>\
     <v-btn text color = "black" href="home.html">首页</v-btn>\
     <v-btn text color = "black">问答</v-btn>\
-    <v-btn class = "mr-12" text color = "black">文章</v-btn>\
+    <v-btn class = "mr-12" text color = "black" href="article_editor.html">写文章</v-btn>\
     </v-toolbar-title>\
     <v-spacer></v-spacer>\
     <v-col class = "ml-12">\
@@ -25,29 +25,60 @@ Vue.component('navigation', {
       @keyup.enter="search"></v-text-field>\
     </v-col>\
     <v-btn class = "mr-12" color = "primary" href="question_editor.html">提问</v-btn>\
-    <v-btn text color = "black" href="sign.html">登录</v-btn>\
-    <v-btn text color = "black" href="register.html">注册</v-btn>\
-    <v-menu>\
-      <template v-slot:activator="{ on, attrs }">\
-        <v-btn v-bind="attrs" v-on="on" id = "User_Name">未登录</v-btn>\
-      </template>\
-      <v-list>\
-        <v-list-item>\
-          <v-list-item-title>用户主页</v-list-item-title>\
-        </v-list-item>\
-        <v-list-item @click="req_logout">\
-          <v-list-item-title>登出</v-list-item-title>\
-        </v-list-item>\
-      </v-list>\
-    </v-menu>\
+    <div v-if="!log_in">\
+      <v-btn text color = "black" href="sign.html">登录</v-btn>\
+      <v-btn text color = "black" href="register.html">注册</v-btn>\
+    </div>\
+    <div v-if="log_in">\
+      <v-menu>\
+        <template v-slot:activator="{ on, attrs }">\
+          <v-btn v-bind="attrs" v-on="on">{{user_id}}</v-btn>\
+        </template>\
+        <v-list>\
+          <v-list-item>\
+            <v-list-item-title>用户主页</v-list-item-title>\
+          </v-list-item>\
+          <v-list-item @click="req_logout">\
+            <v-list-item-title>登出</v-list-item-title>\
+          </v-list-item>\
+        </v-list>\
+      </v-menu>\
+    </div>\
   </v-app-bar>\
-</div>',
+</div>`,
 
   data: () => ({
     message: '',
-}),
+    log_in: false,
+    user_id: '未登录'
+  }),
+
+  mounted: function() {
+    this.req_login();
+  },
 
   methods: {
+    req_login: async function(){
+      axios.get(url + '/account/ask_login_user/', {
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+      })
+      .then(response => (this.ack_login(response)))
+      .catch(function(error){
+          console.log(error);
+      });
+    },
+
+    ack_login: async function(response){
+      if(response.data.err_code == -1){
+        return;
+      }
+      var data = response.data.data;
+      if(data != ""){
+          this.log_in = true;
+          this.user_id = data
+      }
+    },
+
     req_logout: function(){
       if(is_logged_in){
           axios.get(url + '/account/logout/', {
