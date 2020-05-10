@@ -362,7 +362,6 @@ new Vue({
             r = null;
             return context == null || context == "" || context == "undefined" ? "" : context;
         },
-
         pub_comment: function(){
             if(!is_logged_in){
                 alert("请先登录！")
