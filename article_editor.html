@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/mavon-editor@2.9.0/dist/css/index.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mavon-editor@2.9.0/dist/mavon-editor.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-markdown@2.2.4/dist/vue-markdown.js"></script>
+</head>
+<body>
+
+    <!--v-app包含该页面所有内容，v-app标签仅能使用一次-->
+    <div id="article_editor_page">
+        <v-app>
+            <!--编辑页导航栏公用代码-->
+            <div>
+                <editor_header
+                    page_name = "写文章"
+                    @release_issue=release_issue
+                >
+                </editor_header>
+            </div>
+
+            <div class="ma-10">
+                <!--标题输入-->
+                <v-text-field
+                    v-model="title"
+                    label="标题"
+                ></v-text-field>
+            
+                <!--markdown编辑器, issue内容编辑-->
+                <markdown_editor 
+                    ref=md 
+                    @add_img="$img_add" 
+                    @delete_img="$img_del"
+                    @update_content='$update_content'
+                >
+                </markdown_editor>
+            </div>
+
+
+        </v-app>
+    </div>
+
+    <script type='text/javascript' src='js/preload.js' charset="UTF-8"></script>
+    <script type='text/javascript' src='js/editor.js' charset="UTF-8"></script>
+    <script type='text/javascript' src='js/article_editor.js' charset="UTF-8"></script>
+    
+</body>
+</html>

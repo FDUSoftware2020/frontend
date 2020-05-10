@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+<body>
+        <div id="navigation">
+                <v-app id="inspire">
+                  <div>
+                    <v-app-bar
+                      color="white"
+                      dense
+                      
+                    >
+                      <v-col md="0.8"></v-col>
+
+                      <v-img src = "images/logo-new.png" contain max-height="50"></v-img>
+                
+                      <v-col md="0.5"></v-col>
+                        
+                      <v-btn text color = "black">首页</v-btn>
+                      <v-btn text color = "black">问答</v-btn>
+                      <v-btn class = "mr-12" text color = "black">文章</v-btn>
+
+                      <!--强硬方式，增加一条长为5的啥也没有行-->
+                      <v-col md="4"></v-col>    
+                      <v-col md="2" class = "ml-12">
+                        <v-text-field
+                          placeholder="搜索"
+                          dense
+                          hide-details 
+                          outlined
+                          append-icon="search"
+                        ></v-text-field>
+                      </v-col>
+
+                      <v-btn class = "mr-12" color = "primary">提问</v-btn>
+
+                      <v-btn text color = "black">登录</v-btn>
+
+                      <v-btn text color = "black">注册</v-btn>
+
+                      <v-menu>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            v-bind="attrs"
+                            v-on="on"
+                          >
+                            未登录
+                          </v-btn>
+                        </template>
+                  
+                        <v-list>
+                          <v-list-item @click="method">
+                            <v-list-item-title>用户主页</v-list-item-title>
+                          </v-list-item>
+                          <v-list-item @click="method">
+                            <v-list-item-title>登出</v-list-item-title>
+                          </v-list-item>
+                        </v-list>
+                      </v-menu>
+                
+                    </v-app-bar>
+                  </div>
+                </v-app>
+        </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  
+</body>
+</html>

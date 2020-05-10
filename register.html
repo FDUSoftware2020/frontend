@@ -1,61 +1,50 @@
-<!doctype html>
-        <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en-US"> <![endif]-->
-        <!--[if IE 7]>    <html class="lt-ie9 lt-ie8" lang="en-US"> <![endif]-->
-        <!--[if IE 8]>    <html class="lt-ie9" lang="en-US"> <![endif]-->
-        <!--[if gt IE 8]><!--> <html lang="en-US"> <!--<![endif]-->
-        <head>
-                <!-- META TAGS -->
-                <meta charset="UTF-8" />
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
 
-                <title>Knowledge Base Theme</title>
+    <!--v-app包含该页面所有内容，v-app标签仅能使用一次-->
+    <div id="register_page">
+        <v-app>
+            <!--导航栏公用代码,详见navigation.js-->
+            <div>
+                <navigation></navigation>
+            </div>
 
+            <div>
+                <v-img src = "images/register.png" contain max-height="80" class="ma-12"></v-img>
+            </div>
 
-                <!-- Style Sheet-->
-                <link rel='stylesheet' id='main-css-css'  href='css/home.css' type='text/css' media='all' />
-                <link rel='stylesheet' id='sign-css-css'  href='css/register.css' type='text/css' media='all' />
+            <div id="register_container" class="mx-auto">
+                <v-form ref="form" lazy-validation>
+                    <v-text-field label="Name" required v-model="id"></v-text-field>
+                    <v-text-field label="E-mail" required v-model="email"></v-text-field>
+                    <v-text-field label="password" type="password" required v-model="pwd"></v-text-field>
+                    <v-text-field label="password again" type="password" required v-model="pwd_re"></v-text-field>
+                    <v-text-field label="收到的四位验证码" :counter="4" required v-model="verification"></v-text-field>
+                    <v-btn color="success" class="mr-12" @click="req_verify" id="btnVerify" max-width="200" min-width="200">发送验证码</v-btn>
+                    <v-btn color="warning" class="ml-12" @click="req_register">注册</v-btn>
+                </v-form>
+            </div>
 
-                <!--vue-->
-                <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        </v-app>
+    </div>
 
-        </head>
-
-        <body>
-
-                <!-- Start of Header -->
-                <div class="header-wrapper">
-                        <header>
-                                <div class="container">
-
-
-                                        <div class="logo-container">
-                                                <!-- Website Logo -->
-                                                <a href="home.html"  title="Knowledge Base Theme">
-                                                        <img src="images/logo.png" alt="Knowledge Base Theme">
-                                                </a>
-                                                <span class="tag-line">Fudan Software Developer Network</span>
-                                        </div>
-
-
-                                        <!-- Start of Main Navigation -->
-                                        <nav class="main-nav">
-                                                <div class="menu-top-menu-container">
-                                                        <ul id="menu-top-menu" class="clearfix">
-                                                                <li><a href="home.html">Home</a></li>                                                                                                                            
-                                                                <li><a href = "sign.html">Sign</a></li>
-                                                                <li class="current-menu-item"><a href = "register.html">Register</a></li>
-                                                        </ul>
-                                                </div>
-                                        </nav>
-                                        <!-- End of Main Navigation -->
-
-                                </div>
-                        </header>
-                </div>
-                <!-- End of Header -->
-
-                <!--script-->
-                <script type='text/javascript' src='js/register.js'></script>
-
-        </body>
+    <script type='text/javascript' src='js/preload.js' charset="UTF-8"></script>
+    <script type='text/javascript' src='js/navigation.js' charset="UTF-8"></script>
+    <script type='text/javascript' src='js/register.js' charset="UTF-8"></script>
+    
+    
+    
+</body>
 </html>
