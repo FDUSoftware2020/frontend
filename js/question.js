@@ -160,15 +160,21 @@ Vue.component('single_subcomment',{
                 <v-icon small left>mdi-thumb-up</v-icon>\
                 {{item.like_num}}\
             </v-btn>\
-            <v-btn text @click="req_subcomment_list" v-if="!show_response_editor">回复</v-btn>\
-            <v-btn text @click="show_response_editor=false" v-if="show_response_editor" color="blue">收起</v-btn>\
+            <v-btn text @click="req_subcomment_list" v-if="!show_response_editor">查看对话</v-btn>\
+            <v-btn text @click="show_response_editor=false" v-if="show_response_editor" color="blue">收起对话</v-btn>\
+            <v-btn text @click="show_response=true" v-if="!show_response" min-width="80">回复</v-btn>\
+            <v-btn text @click="show_response=false" v-if="show_response" color="blue" min-width="80">收起回复</v-btn>\
             <v-btn text small color="grey" v-if="current_user_id == item.from" @click="req_comment_delete">删除</v-btn>\
             <v-spacer></v-spacer>\
             <v-btn color="primary" v-if="show_response_editor" class="mr-2" min-width="80" @click="req_comment_respond">发布回复</v-btn>\
         </v-card-actions>\
     </v-card>\
-    <div v-if="show_response_editor" class="ma-6">\
+    <div v-if="show_response" class="mt-6">\
+    <div class="ml-6">\
         <v-textarea label="输入你的评论内容" outlined color="blue" height="50" class="mt-2" v-model = "subcomment_content"></v-textarea>\
+    </div>\
+    </div>\
+    <div v-if="show_response_editor" class="ml-6">\
         <single_level2comment \
                 v-bind:item="tool, idx" \
                 v-bind:parentid="item.id"\
@@ -184,6 +190,7 @@ Vue.component('single_subcomment',{
         return{
             current_user_id : user_id,
             show_response_editor : false,
+            show_response : false,
             subcomment_content : "",
             /*
             {
@@ -343,14 +350,18 @@ Vue.component('single_answer',{
                 <v-btn outlined color="blue" @click="like_answer" v-if="item.IsLiking" min-width="80" max-width="80">已赞同{{item.like_num}}</v-btn>\
                 <v-btn text color="blue" @click="req_comment_list" v-if="!show_comments" min-width="80">评论{{item.comment_num}}</v-btn>\
                 <v-btn outlined color="blue" @click="pack_up_comments" v-if="show_comments" min-width="80">收起评论</v-btn>\
+                <v-btn text color="blue" @click="show_editor=true" v-if="!show_editor" min-width="80">回复</v-btn>\
+                <v-btn outlined color="blue" @click="show_editor=false" v-if="show_editor" min-width="80">收起回复</v-btn>\
                 <v-btn text small color="grey" v-if="current_user_id == item.author" @click="req_answer_delete">删除</v-btn>\
                 <v-spacer></v-spacer>\
-                <v-btn color="primary" v-if="show_comments" min-width="100" @click="req_comment_create">发布评论</v-btn>\
+                <v-btn color="primary" v-if="show_editor" min-width="100" @click="req_comment_create">发布评论</v-btn>\
             </v-card-actions>\
         </v-card>\
         <v-divider></v-divider>\
-        <div v-if="show_comments" class = "ma-4">\
+        <div v-if="show_editor" class = "ma-4">\
             <v-textarea label="输入你的评论内容" outlined color="blue" height="100" v-model="comment_content"></v-textarea>\
+        </div>\
+        <div v-if="show_comments" class = "ma-4">\
             <single_subcomment \
                 v-bind:item="tool, idx" \
                 v-for="(tool, idx) in sub_comments" \
@@ -366,6 +377,7 @@ Vue.component('single_answer',{
             current_user_id : user_id,
             comment_content: "",
             show_comments: false,
+            show_editor: false,
             /*
             {
 	            "id": <int>,
