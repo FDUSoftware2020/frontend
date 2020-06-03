@@ -43,8 +43,8 @@ Vue.component('single_level2comment',{
                 <v-icon small left>mdi-thumb-up</v-icon>\
                 {{item.like_num}}\
             </v-btn>\
-            <v-btn text @click="show_response_editor=!show_response_editor" v-if="!show_response_editor">查看对话</v-btn>\
-            <v-btn text @click="show_response_editor=!show_response_editor" v-if="show_response_editor" color="blue">收起对话</v-btn>\
+            <v-btn text @click="show_response_editor=!show_response_editor" v-if="!show_response_editor">回复</v-btn>\
+            <v-btn text @click="show_response_editor=!show_response_editor" v-if="show_response_editor" color="blue">收起回复</v-btn>\
             <v-btn text small color="grey" v-if="current_user_id == item.from" @click="req_comment_delete">删除</v-btn>\
             <v-spacer></v-spacer>\
             <v-btn color="primary" v-if="show_response_editor" class="mr-2" min-width="80" @click="req_comment_respond">发布回复</v-btn>\
@@ -166,7 +166,7 @@ Vue.component('single_subcomment',{
             <v-btn text @click="show_response=false" v-if="show_response" color="blue" min-width="80">收起回复</v-btn>\
             <v-btn text small color="grey" v-if="current_user_id == item.from" @click="req_comment_delete">删除</v-btn>\
             <v-spacer></v-spacer>\
-            <v-btn color="primary" v-if="show_response_editor" class="mr-2" min-width="80" @click="req_comment_respond">发布回复</v-btn>\
+            <v-btn color="primary" v-if="show_response" class="mr-2" min-width="80" @click="req_comment_respond">发布回复</v-btn>\
         </v-card-actions>\
     </v-card>\
     <div v-if="show_response" class="mt-6">\
@@ -175,6 +175,7 @@ Vue.component('single_subcomment',{
     </div>\
     </div>\
     <div v-if="show_response_editor" class="ml-6">\
+    <div class="mt-2">\
         <single_level2comment \
                 v-bind:item="tool, idx" \
                 v-bind:parentid="item.id"\
@@ -183,6 +184,7 @@ Vue.component('single_subcomment',{
                 v-on:comment_respond = "req_subcomment_list"\
                 v-on:comment_delete = "req_subcomment_list">\
         </single_level2comment>\
+    </div>\
     </div>\
     </div>\
     ',
