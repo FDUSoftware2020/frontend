@@ -21,6 +21,123 @@ var compare_newest = function(x, y){
     return -1;
 }
 
+Vue.component('single_level2comment',{
+    props:["item", "idx", "parentid"],
+    template: '\
+    <div class="mb-2">\
+    <v-card shaped>\
+        <v-card-title>\
+            {{item.from}} <span class="body-2">&nbsp; &nbsp; 回复&nbsp; &nbsp; </span> {{item.to}}\
+            <v-spacer></v-spacer>\
+            <span class="caption">{{item.pub_date}}</span>\
+        </v-card-title>\
+        <v-card-text class="body-1">\
+            <p class="text--primary">{{item.content}}</p>\
+        </v-card-text>\
+        <v-card-actions>\
+            <v-btn text v-if="!item.IsLiking" min-width="80" max-width="80" @click="comment_like">\
+                <v-icon small left color="grey">mdi-thumb-up</v-icon>\
+                {{item.like_num}}\
+            </v-btn>\
+            <v-btn text color="blue" v-if="item.IsLiking" min-width="80" max-width="80" @click="comment_like">\
+                <v-icon small left>mdi-thumb-up</v-icon>\
+                {{item.like_num}}\
+            </v-btn>\
+            <v-btn text @click="show_response_editor=!show_response_editor" v-if="!show_response_editor">查看对话</v-btn>\
+            <v-btn text @click="show_response_editor=!show_response_editor" v-if="show_response_editor" color="blue">收起对话</v-btn>\
+            <v-btn text small color="grey" v-if="current_user_id == item.from" @click="req_comment_delete">删除</v-btn>\
+            <v-spacer></v-spacer>\
+            <v-btn color="primary" v-if="show_response_editor" class="mr-2" min-width="80" @click="req_comment_respond">发布回复</v-btn>\
+        </v-card-actions>\
+    </v-card>\
+    <v-textarea v-if="show_response_editor" label="输入你的评论内容" outlined color="blue" height="50" class="mt-2" v-model = "subcomment_content"></v-textarea>\
+    </div>\
+    ',
+    data: function(){
+        return{
+            current_user_id : user_id,
+            show_response_editor: false,
+            subcomment_content : "",
+        }
+    },
+
+    methods:{
+        comment_like: function(){
+            this.$emit('like_comment', this.idx)
+        },
+
+        req_comment_respond: function(){
+            if(!is_logged_in){
+                alert("请先登录！")
+                location = "sign.html"
+                return;
+            }
+
+            if(this.subcomment_content == ''){
+                alert("回复不能为空")
+                return;
+            }
+
+            //POST /comment/create/
+            axios.post(url + '/comment/create/', data = {
+                target_type: 3,
+                target_id: this.item.id,
+                content: this.subcomment_content,
+                parent_comment_id: this.parentid,
+            }, {
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+            .then(response => (this.ack_comment_respond(response)))
+            .catch(function(error){
+                console.log(error);
+            });
+
+        },
+
+        ack_comment_respond: function(response){
+            var data = response.data
+            if(data.err_code == -1){
+                alert("ack_comment_respond failed")
+            }else{
+                alert("发布成功")
+                this.$emit('comment_respond')
+            }
+        },
+
+        //删除回复
+        //GET /comment/<int:comment_id>/delete/
+        req_comment_delete: function(){
+            if(user_id != this.item.from || !is_logged_in){
+                alert("无法删除")
+                return
+            }
+            var r = confirm("是否确认删除")
+            if(!r){
+                return
+            }
+
+            axios.get(url + '/comment/' + this.item.id + '/delete/', {
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+            .then(response => (this.ack_comment_delete(response)))
+            .catch(function(error){
+                console.log(error);
+            });
+        },
+
+        ack_comment_delete: function(response){
+            var data = response.data
+            if(data.err_code == -1){
+                alert("ack_comment_delete failed")
+                return
+            }
+            alert("删除成功")
+            this.$emit('comment_delete')
+        }
+    },
+}
+)
+
 Vue.component('single_subcomment',{
     props:["item", "idx"],
     template: '\
@@ -43,14 +160,24 @@ Vue.component('single_subcomment',{
                 <v-icon small left>mdi-thumb-up</v-icon>\
                 {{item.like_num}}\
             </v-btn>\
-            <v-btn text @click="show_response_editor=!show_response_editor" v-if="!show_response_editor">回复</v-btn>\
-            <v-btn text @click="show_response_editor=!show_response_editor" v-if="show_response_editor" color="blue">收起</v-btn>\
+            <v-btn text @click="req_subcomment_list" v-if="!show_response_editor">回复</v-btn>\
+            <v-btn text @click="show_response_editor=false" v-if="show_response_editor" color="blue">收起</v-btn>\
             <v-btn text small color="grey" v-if="current_user_id == item.from" @click="req_comment_delete">删除</v-btn>\
             <v-spacer></v-spacer>\
             <v-btn color="primary" v-if="show_response_editor" class="mr-2" min-width="80" @click="req_comment_respond">发布回复</v-btn>\
         </v-card-actions>\
     </v-card>\
-    <v-textarea label="输入你的评论内容" outlined color="blue" height="50" v-if="show_response_editor" class="mt-2" v-model = "subcomment_content"></v-textarea>\
+    <div v-if="show_response_editor" class="ma-6">\
+        <v-textarea label="输入你的评论内容" outlined color="blue" height="50" class="mt-2" v-model = "subcomment_content"></v-textarea>\
+        <single_level2comment \
+                v-bind:item="tool, idx" \
+                v-bind:parentid="item.id"\
+                v-for="(tool, idx) in sub_subcomments"\
+                v-on:like_comment = "req_comment_like"\
+                v-on:comment_respond = "req_subcomment_list"\
+                v-on:comment_delete = "req_subcomment_list">\
+        </single_level2comment>\
+    </div>\
     </div>\
     ',
     data: function(){
@@ -58,11 +185,73 @@ Vue.component('single_subcomment',{
             current_user_id : user_id,
             show_response_editor : false,
             subcomment_content : "",
+            /*
+            {
+	            "id": <int>,
+	            "from": <str, 发送方>,
+	            "to": <str, 接收方>,
+	            "pub_date": <str, 发布时间>,
+	            "content": <str, 内容>,
+	            "like_num": <str, 点赞数>,
+	            "IsLiking": <bool, True表示当前用户已点赞, False表示未点赞, 未登录时默认False>
+            }
+            */
+           sub_subcomments: [],
         }
     },
     methods:{
         comment_like: function(){
             this.$emit('like_comment', this.idx)
+        },
+
+        //点赞一条回答的评论
+        //GET /comment/<int:comment_id>/like/
+        req_comment_like: function(idx){
+            if(!is_logged_in){
+                alert("请先登录！")
+                location = "sign.html"
+                return
+            }
+            axios.get(url + '/comment/' + this.sub_subcomments[idx].id + '/like/', {
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+            .then(response => (this.ack_comment_like(response, idx)))
+            .catch(function(error){
+                console.log(error);
+            });
+        },
+
+        ack_comment_like: function(response, idx){
+            if(response.data.err_code == 0){
+                if(this.sub_subcomments[idx].IsLiking == false){
+                    this.sub_subcomments[idx].IsLiking = true
+                    this.sub_subcomments[idx].like_num = this.sub_subcomments[idx].like_num + 1
+                }else{
+                    this.sub_subcomments[idx].IsLiking = false
+                    this.sub_subcomments[idx].like_num = this.sub_subcomments[idx].like_num - 1
+                }
+            }else{
+                alert("ops")
+            }
+        },
+
+        req_subcomment_list: function(){
+            this.show_response_editor = true;
+            //POST /comment/list/ 获取该评论的全部二级评论
+            axios.post(url + '/comment/list/', data = {
+                target_type: 3,
+	            target_id: this.item.id,
+            }, {
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+            .then(response => (this.ack_subcomment_list(response)))
+            .catch(function(error){
+                console.log(error);
+            });
+        },
+
+        ack_subcomment_list: function(res){
+            this.sub_subcomments = res.data.data;
         },
 
         req_comment_respond: function(){
@@ -99,7 +288,7 @@ Vue.component('single_subcomment',{
                 alert("ack_comment_respond failed")
             }else{
                 alert("发布成功")
-                this.$emit('comment_respond')
+                this.req_subcomment_list()
             }
         },
 
