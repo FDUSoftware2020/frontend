@@ -30,7 +30,7 @@ Vue.component('navigation', {
       <v-btn text color = "black" href="register.html">注册</v-btn>\
     </div>\
     <div v-if="!log_in">\
-      <v-dialog v-model="dialog" width="300px">
+      <v-menu offset-y>
         <template v-slot:activator="{ on }">
           <v-btn v-bind="attrs" v-on="on" @click="">
             <span>{{title}} </span>
@@ -51,8 +51,6 @@ Vue.component('navigation', {
           min-width="300"
           tile
         >
-          <v-card-title>消息通知</v-card-title>
-          <v-divider></v-divider>
           <v-list-item two-line v-for="(item, index) in news" :key="index">
             <v-list-item-content>
               <v-list-item-title>
@@ -88,13 +86,9 @@ Vue.component('navigation', {
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="green darken-1" text @click="dialog = false">确认</v-btn>
-          </v-card-actions>
         </v-card>
         </v-lazy>
-      </v-dialog>
+      </v-menu>
       <v-menu>\
         <template v-slot:activator="{ on, attrs }">\
           <v-btn v-bind="attrs" v-on="on">{{user_id}}</v-btn>\
@@ -118,7 +112,6 @@ Vue.component('navigation', {
     title: '消息通知',
     cnt: '',
     no_old: true,
-    dialog: false,
     user_id: '未登录',
     type: ['', '回答了你的问题', '评论了你的文章', '评论了你的回答'],
     news: [{ 
