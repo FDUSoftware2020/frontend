@@ -22,7 +22,7 @@ var compare_newest = function(x, y){
 Vue.use(VueMarkdown)
 
 Vue.component('single_subcomment',{
-    props:["item", "idx"],
+    props:["item", "idx", "parent_id"],
     template: '\
     <v-card shaped>\
         <v-card-title>\
@@ -76,6 +76,7 @@ Vue.component('single_subcomment',{
             axios.post(url + '/comment/create/', data = {
                 target_type : 3,
                 target_id : this.item.id,
+                parent_comment_id: this.parent_id,
                 content : this.__comment
             }, {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -163,7 +164,7 @@ Vue.component('single_comment',{
         </v-card>\
         <v-divider></v-divider>\
         <div v-if="show_comments" class = "ml-12">\
-            <single_subcomment v-bind:item="tool, idx" v-for="(tool, idx) in sub_comments" v-on:like_comment = "req_comment_like"></single_subcomment>\
+            <single_subcomment v-bind:item="tool, idx" v-bind:parent_id="item.id" v-for="(tool, idx) in sub_comments" v-on:like_comment = "req_comment_like"></single_subcomment>\
         </div>\
     </div>\
     ',
@@ -190,6 +191,7 @@ Vue.component('single_comment',{
             axios.post(url + '/comment/create/', data = {
                 target_type : 3,
                 target_id : this.item.id,
+                parent_comment_id: this.item.id,
                 content : this.__comment
             }, {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -374,6 +376,7 @@ new Vue({
             axios.post(url + '/comment/create/', data = {
                 target_type : 1,
                 target_id : this.article_id,
+                parent_comment_id: -1,
                 content : this.__comment
             }, {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
