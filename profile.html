@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div id="profile_page">
+        <v-app>
+            <div>
+                <navigation></navigation>
+            </div>
+
+            <div>
+                <v-col md="0.4"></v-col>
+
+                <v-card max-width="800" class="mx-auto">
+                    <v-card-title class="font-weight-bold" >
+                        {{ user_id }}
+                        <v-spacer></v-spacer>
+                        <p class="body-2">{{ user_signature }}</p>
+                    </v-card-title>
+                    <v-col cols="14" sm="9">
+                        <v-text-field label="个性签名" v-if="is_edit" v-model="input_signature"></v-text-field>
+                    </v-col>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="primary" v-if="!is_edit" min-width="100" @click="is_edit = true">编辑个人信息</v-btn>
+                        <v-btn v-if="is_edit" min-width="100" @click="is_edit = false">取消</v-btn>
+                        <v-btn color="primary" v-if="is_edit" min-width="100" @click="modify_signature()">保存</v-btn>
+                    </v-card-actions>
+                </v-card>
+                <v-col md="0.4"></v-col>
+
+                <v-card max-width="800" class="mx-auto">
+                    <v-tabs v-model="tab_ptr">
+                        <v-tab v-for="(issues, tab_name) in tabs_content" :key="tab_name">
+                            {{ tab_name }}
+                        </v-tab>
+                    </v-tabs>
+
+                    <v-tabs-items v-model="tab_ptr">
+                        <v-tab-item v-for="(issues, tab_name) in tabs_content" :key="tab_name">
+                            <div v-for="(issue, i) in issues">
+                                <v-col md="0.2"></v-col>
+                                <v-card max-width="800" class="mx-auto">
+                                    <v-list-item>
+                                        <v-list-item-avatar color="grey"></v-list-item-avatar>
+                                        <v-list-item-content>
+                                            <v-list-item-title class="headline" @click="more_detail(tab_name, i)">
+                                                {{issue.title}}
+                                            </v-list-item-title>
+                                            <v-list-item-subtitle>——{{issue.author}} {{issue.pub_date}}
+                                            </v-list-item-subtitle>
+                                        </v-list-item-content>
+                                    </v-list-item>
+                                    <v-card-text>
+                                        {{issue.content}}
+                                    </v-card-text>
+
+                                    <v-card-actions>
+                                        <v-btn text color="blue accent-4" @click="more_detail(tab_name, i)">more</v-btn>
+
+                                        <v-spacer></v-spacer>
+                                        <v-btn icon :color="like_icon(tab_name, i)" @click="like(tab_name, i)">
+                                            <v-icon>mdi-heart</v-icon>
+                                        </v-btn>
+                                        <span class="subheading mr-2" id="heart">{{issue.like_num}}</span>
+                                        <v-btn icon :color="collect_icon(tab_name, i)" @click="collect(tab_name, i)">
+                                            <v-icon>mdi-bookmark</v-icon>
+                                        </v-btn>
+                                        <span class="subheading mr-2" id="collect">{{issue.collect_num}}</span>
+                                        <v-btn icon color="blue">
+                                            <v-icon>mdi-share-variant</v-icon>
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </div>
+                        </v-tab-item>
+                    </v-tabs-items>
+                </v-card>
+                <v-col md="0.4"></v-col>
+
+            </div>
+
+        </v-app>
+    </div>
+
+    <script type='text/javascript' src='js/preload.js' charset="UTF-8"></script>
+    <script type='text/javascript' src='js/navigation.js' charset="UTF-8"></script>
+    <script type='text/javascript' src='js/profile.js' charset="UTF-8"></script>
+</body>
+
+</html>

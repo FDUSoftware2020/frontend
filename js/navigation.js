@@ -100,7 +100,7 @@ Vue.component('navigation', {
           <v-btn v-bind="attrs" v-on="on">{{user_id}}</v-btn>\
         </template>\
         <v-list>\
-          <v-list-item>\
+          <v-list-item @click="goto_profile">\
             <v-list-item-title>用户主页</v-list-item-title>\
           </v-list-item>\
           <v-list-item @click="req_logout">\
@@ -336,7 +336,7 @@ Vue.component('navigation', {
           this.no_old = false
         }
       }else{
-        alert(data.message)
+        console.log(data.message)
       }
     },
 
@@ -348,7 +348,11 @@ Vue.component('navigation', {
       else{
         message = "请输入搜索内容"
       }
-    }
+    },
+
+    goto_profile: function(){
+      location = 'profile.html'
+    },
   }
 
 })
