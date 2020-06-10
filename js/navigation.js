@@ -29,7 +29,7 @@ Vue.component('navigation', {
       <v-btn text color = "black" href="sign.html">登录</v-btn>\
       <v-btn text color = "black" href="register.html">注册</v-btn>\
     </div>\
-    <div v-if="!log_in">\
+    <div v-if="log_in">\
       <v-dialog v-model="dialog" width="400px">
         <template v-slot:activator="{ on }">
           <v-btn v-bind="attrs" v-on="on" @click="">
