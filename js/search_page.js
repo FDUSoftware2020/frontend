@@ -129,10 +129,8 @@ new Vue({
 				}else{
 					this.detail[i].like_num -= 1
 				}
-				alert(this.like_color[int(this.detail[i].IsLiking)])
-				like_icon(i)
 
-				axios.get(url + '/issue/' + this.detail[i].issue_id + '/like/', 
+				axios.get(url + '/issue/' + this.detail[i].id + '/like/', 
 					data = {}, {
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 				})
@@ -153,7 +151,7 @@ new Vue({
 					this.detail[i].collect_num -= 1
 				}
 
-				axios.get(url + '/issue/' + this.detail[i].issue_id + '/collect/', 
+				axios.get(url + '/issue/' + this.detail[i].id + '/collect/', 
 					data = {}, {
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 				})

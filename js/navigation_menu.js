@@ -25,12 +25,12 @@ Vue.component('navigation', {
       @keyup.enter="search"></v-text-field>\
     </v-col>\
     <v-btn class = "mr-12" color = "primary" href="question_editor.html">提问</v-btn>\
-    <div v-if="!log_in">\
+    <div v-if="log_in">\
       <v-btn text color = "black" href="sign.html">登录</v-btn>\
       <v-btn text color = "black" href="register.html">注册</v-btn>\
     </div>\
-    <div v-if="log_in">\
-      <v-dialog v-model="dialog" width="400px">
+    <div v-if="!log_in">\
+      <v-menu offset-y>
         <template v-slot:activator="{ on }">
           <v-btn v-bind="attrs" v-on="on" @click="">
             <span>{{title}} </span>
@@ -47,65 +47,54 @@ Vue.component('navigation', {
         >
         <v-card
           class="mx-auto"
-          max-width="400"
-          dense
+          max-width="300"
+          min-width="300"
+          tile
         >
-          <v-card-title>消息通知</v-card-title>
-          <v-divider></v-divider>
           <v-list-item two-line v-for="(item, index) in news" :key="index">
             <v-list-item-content>
-              <p style="word-break:break-all;" @click="jump(index, 0)">
-                <span class="font-weight-black">{{item.from}} </span>
-                {{item.content}}
-              </p>
-              <v-list-item-subtitle @click="jump(index, 0)">
-                <span class="font-weight-light">{{item.pub_date}}</span>
-              </v-list-item-subtitle>
-            </v-list-item-content>
-            <v-list-item-action @click="del(index, 0)">
-              <v-btn icon>
-                <v-icon small color="grey lighten-1">
+              <v-list-item-title>
+                <span class="font-weight-black" @click="jump(index, 0)">{{item.from}} </span>
+                <span @click="jump(index, 0)">{{type[item.type]}}</span>
+                <span>
+                <v-icon right @click="del(index, 0)">
                   mdi-delete
                 </v-icon>
-              </v-btn>
-            </v-list-item-action>
+                </span>
+              </v-list-item-title>
+              <v-list-item-subtitle>
+                <p class="font-weight-light" @click="jump(index, 0)">{{item.pub_date}}</p>
+              </v-list-item-subtitle>
+            </v-list-item-content>
           </v-list-item>
           <div v-if="!no_old">
-            <v-subheader>以下为旧消息</v-subheader>
-            <v-divider></v-divider>
-            
+            <p class="font-weight-thin">---------------以下为旧消息--------------</p>
           </div>
           <v-list-item two-line v-for="(item, index) in old" :key="index">
             <v-list-item-content>
-            <p @click="jump(index, 1)">
-            <span class="font-weight-black">{{item.from}} </span>
-            {{item.content}}
-          </p>
-          <v-list-item-subtitle @click="jump(index, 1)">
-            <span class="font-weight-light">{{item.pub_date}}</span>
-          </v-list-item-subtitle>
-        </v-list-item-content>
-        <v-list-item-action @click="del(index, 1)">
-          <v-btn icon>
-            <v-icon small color="grey lighten-1">
-              mdi-delete
-            </v-icon>
-          </v-btn>
-        </v-list-item-action>
-      </v-list-item>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="green darken-1" text @click="dialog = false">确认</v-btn>
-          </v-card-actions>
+              <v-list-item-title>
+                <span class="font-weight-black" @click="jump(index, 1)">{{item.from}} </span>
+                <span @click="jump(index, 1)">{{type[item.type]}}</span>
+                <span>
+                <v-icon right @click="del(index, 1)">
+                  mdi-delete
+                </v-icon>
+                </span>
+              </v-list-item-title>
+              <v-list-item-subtitle>
+                <p class="font-weight-light" @click="jump(index, 1)">{{item.pub_date}}</p>
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
         </v-card>
         </v-lazy>
-      </v-dialog>
+      </v-menu>
       <v-menu>\
         <template v-slot:activator="{ on, attrs }">\
           <v-btn v-bind="attrs" v-on="on">{{user_id}}</v-btn>\
         </template>\
         <v-list>\
-          <v-list-item @click="goto_profile">\
+          <v-list-item>\
             <v-list-item-title>用户主页</v-list-item-title>\
           </v-list-item>\
           <v-list-item @click="req_logout">\
@@ -122,8 +111,7 @@ Vue.component('navigation', {
     log_in: false,
     title: '消息通知',
     cnt: '',
-    no_old: false,
-    dialog: false,
+    no_old: true,
     user_id: '未登录',
     type: ['', '回答了你的问题', '评论了你的文章', '评论了你的回答'],
     news: [{ 
@@ -133,9 +121,9 @@ Vue.component('navigation', {
 	    "answer_id": 2,
 	    "parent_comment_id": -1,
 	    "comment_id": -1,
-      "from": "张三",
-      "pub_date": "2020-2-20",
-      "content": "在帖子《XXXXXXXXXXXXXXXXXXXXXXXXXX》你的回复中追加了一条对话",
+	    "from": '张三',
+	    "to": '李四',
+	    "pub_date": '2020-02-20',
       "IsReading": 0
     },
     { 
@@ -145,9 +133,9 @@ Vue.component('navigation', {
 	    "answer_id": -1,
 	    "parent_comment_id": -1,
 	    "comment_id": 11,
-	    "from": "张三",
-      "pub_date": "2020-2-20",
-      "content": "在你的帖子《》追加了一条回答",
+	    "from": '王五',
+	    "to": '李四',
+	    "pub_date": '2020-02-20',
       "IsReading": 0
     }],
     old: [{ 
@@ -158,9 +146,9 @@ Vue.component('navigation', {
 	    "parent_comment_id": -1,
 	    "comment_id": -1,
 	    "from": '张',
-	    "pub_date": "2020-2-20",
-      "content": "在你的帖子《》追加了一条回答",
-      "IsReading": 1
+	    "to": '李四',
+	    "pub_date": '2020-02-20',
+      "IsReading": 0
     },
     { 
       "msg_id": 123,
@@ -170,9 +158,9 @@ Vue.component('navigation', {
 	    "parent_comment_id": -1,
 	    "comment_id": -1,
 	    "from": '张',
-	    "pub_date": "2020-2-20",
-      "content": "在帖子《》你的回复中追加了一条对话",
-      "IsReading": 1
+	    "to": '李四',
+	    "pub_date": '2020-02-20',
+      "IsReading": 0
     },
     { 
       "msg_id": 123,
@@ -182,9 +170,33 @@ Vue.component('navigation', {
 	    "parent_comment_id": -1,
 	    "comment_id": -1,
 	    "from": '张',
-      "pub_date": "2020-2-20",
-      "content": "在你的帖子《》追加了一条回答",
-      "IsReading": 1
+	    "to": '李四',
+	    "pub_date": '2020-02-20',
+      "IsReading": 0
+    },
+    { 
+      "msg_id": 123,
+      "type": 1,
+	    "issue_id": 2,
+	    "answer_id": 2,
+	    "parent_comment_id": -1,
+	    "comment_id": -1,
+	    "from": '张',
+	    "to": '李四',
+	    "pub_date": '2020-02-20',
+      "IsReading": 0
+    },
+    { 
+      "msg_id": 123,
+      "type": 1,
+	    "issue_id": 2,
+	    "answer_id": 2,
+	    "parent_comment_id": -1,
+	    "comment_id": -1,
+	    "from": '张',
+	    "to": '李四',
+	    "pub_date": '2020-02-20',
+      "IsReading": 0
     },
     { 
       "msg_id": 127,
@@ -194,9 +206,9 @@ Vue.component('navigation', {
 	    "parent_comment_id": -1,
 	    "comment_id": 11,
 	    "from": '三',
-      "pub_date": "2020-2-20",
-      "content": "在帖子《》你的回复中追加了一条对话",
-      "IsReading": 1
+	    "to": '李四',
+	    "pub_date": '2020-02-20',
+      "IsReading": 0
     }]
   }),
 
@@ -311,19 +323,19 @@ Vue.component('navigation', {
     },
 
     ack_read: function(response){
-      if(response.data.err_code == 0){
-        return
+      if(response.err_code == 0){
+        continue
       }else{
-        console.log(response.message)
+        alert(response.message)
       }
     },
 
 
     ack_delete: function(response){
-      if(response.data.err_code == 0){
-        return
+      if(response.err_code == 0){
+        continue
       }else{
-        console.log(response.message)
+        alert(response.message)
       }
     },
 
@@ -341,7 +353,7 @@ Vue.component('navigation', {
           this.no_old = false
         }
       }else{
-        console.log(data.message)
+        alert(data.message)
       }
     },
 
@@ -353,11 +365,7 @@ Vue.component('navigation', {
       else{
         message = "请输入搜索内容"
       }
-    },
-
-    goto_profile: function(){
-      location = 'profile.html'
-    },
+    }
   }
 
 })

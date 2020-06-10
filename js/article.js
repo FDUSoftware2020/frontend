@@ -22,7 +22,7 @@ var compare_newest = function(x, y){
 Vue.use(VueMarkdown)
 
 Vue.component('single_subcomment',{
-    props:["item", "idx"],
+    props:["item", "idx", "parent_id"],
     template: '\
     <v-card shaped>\
         <v-card-title>\
@@ -76,11 +76,12 @@ Vue.component('single_subcomment',{
             axios.post(url + '/comment/create/', data = {
                 target_type : 3,
                 target_id : this.item.id,
+                parent_comment_id: this.parent_id,
                 content : this.__comment
             }, {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
-            .then(response => (this.ack_pub_comment(response, idx)))
+            .then(response => (this.ack_pub_comment(response)))
             .catch(function(error){
                 console.log(error);
             });
@@ -88,7 +89,8 @@ Vue.component('single_subcomment',{
         ack_pub_comment : function(response){
             var data = response.data;
             if(data.err_code == 0){
-                alert("回复成功");
+                alert("回复成功")
+                this.$emit('comment_respond')
             }else{
                 alert("回复失败\n" + data.message);
             }
@@ -141,11 +143,11 @@ Vue.component('single_comment',{
                 <p class="text--primary">{{item.content}}</p>\
             </v-card-text>\
             <v-card-actions>\
-                <v-btn text v-if="!item.IsLiking" min-width="80" max-width="80" @click="comment_like">\
+                <v-btn text v-if="!item.IsLiking" min-width="80" max-width="80" @click="like_comment">\
                     <v-icon small left color="grey">mdi-thumb-up</v-icon>\
                     {{item.like_num}}\
                 </v-btn>\
-                <v-btn text color="blue" v-if="item.IsLiking" min-width="80" max-width="80" @click="comment_like">\
+                <v-btn text color="blue" v-if="item.IsLiking" min-width="80" max-width="80" @click="like_comment">\
                     <v-icon small left>mdi-thumb-up</v-icon>\
                     {{item.like_num}}\
                 </v-btn>\
@@ -158,12 +160,14 @@ Vue.component('single_comment',{
             </v-card-actions>\
             <v-card-actions>\
                 <v-textarea label="输入你的评论内容" outlined color="blue" height="50" v-if="show_response_editor" class="mt-2" v-model = "__comment"></v-textarea>\
-                <v-btn color="primary" v-if="show_response_editor" class="mb-4" min-width="80" @click="pub_comment">发布</v-btn>\
+                <v-btn color="primary" v-if="show_response_editor" class="mb-4" min-width="80" @click="req_pub_comment">发布</v-btn>\
             </v-card-actions>\
         </v-card>\
         <v-divider></v-divider>\
         <div v-if="show_comments" class = "ml-12">\
-            <single_subcomment v-bind:item="tool, idx" v-for="(tool, idx) in sub_comments" v-on:like_comment = "req_comment_like"></single_subcomment>\
+            <single_subcomment v-bind:item="tool, idx" v-bind:parent_id="item.id" v-for="(tool, idx) in sub_comments" \
+            v-on:like_comment = "req_comment_like" v-on:comment_respond = "req_comment_list" \
+            v-on:comment_delete = "req_comment_list"></single_subcomment>\
         </div>\
     </div>\
     ',
@@ -178,7 +182,7 @@ Vue.component('single_comment',{
     },
 
     methods:{
-        pub_comment: function(){
+        req_pub_comment: function(){
             if(!is_logged_in){
                 alert("请先登录！")
                 location = "sign.html"
@@ -190,21 +194,23 @@ Vue.component('single_comment',{
             axios.post(url + '/comment/create/', data = {
                 target_type : 3,
                 target_id : this.item.id,
+                parent_comment_id: this.item.id,
                 content : this.__comment
             }, {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
-            .then(response => (this.ack_pub_comment(response, idx)))
+            .then(response => (this.ack_pub_comment(response)))
             .catch(function(error){
                 console.log(error);
             });
         },
         ack_pub_comment : function(response){
             var data = response.data;
-            if(data.err_code == 0){
-                alert("回复成功");
+            if(data.err_code == -1){
+                alert("回复失败\n" + data.message)
             }else{
-                alert("回复失败\n" + data.message);
+                alert("回复成功")
+                this.req_comment_list()
             }
         },
 
@@ -236,7 +242,7 @@ Vue.component('single_comment',{
                 return
             }
             alert("删除成功")
-            this.$emit('comment_delete')
+            location.reload()
         },
 
         //点赞一条回答的评论
@@ -265,7 +271,7 @@ Vue.component('single_comment',{
                     this.sub_comments[idx].like_num = this.sub_comments[idx].like_num - 1
                 }
             }else{
-                alert("ops")
+                alert("failed to get comment like")
             }
         },
 
@@ -294,7 +300,7 @@ Vue.component('single_comment',{
 
         ack_comment_list: function(response){
             if(response.data.err_code == -1){
-                alert("oops")
+                alert("failed to get comment list")
                 return
             }else{
                 var data = response.data.data
@@ -362,7 +368,7 @@ new Vue({
             r = null;
             return context == null || context == "" || context == "undefined" ? "" : context;
         },
-        pub_comment: function(){
+        req_pub_comment: function(){
             if(!is_logged_in){
                 alert("请先登录！")
                 location = "sign.html"
@@ -374,21 +380,23 @@ new Vue({
             axios.post(url + '/comment/create/', data = {
                 target_type : 1,
                 target_id : this.article_id,
+                parent_comment_id: -1,
                 content : this.__comment
             }, {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
-            .then(response => (this.ack_pub_comment(response, idx)))
+            .then(response => (this.ack_pub_comment(response)))
             .catch(function(error){
                 console.log(error);
             });
         },
         ack_pub_comment : function(response){
             var data = response.data;
-            if(data.err_code == 0){
-                alert("回复成功");
+            if(data.err_code == -1){
+                alert("回复失败\n" + data.message)
             }else{
-                alert("回复失败\n" + data.message);
+                alert("回复成功")
+                location.reload()
             }
         },
 
@@ -451,7 +459,7 @@ new Vue({
                     this.q_collect_num = this.q_collect_num + 1;
                 }
             }else{
-                alert("ops")
+                alert("failed to get issue collect")
             }
         },
 
@@ -482,7 +490,7 @@ new Vue({
                     this.q_like_num = this.q_like_num + 1;
                 }
             }else{
-                alert("ops")
+                alert("failed to get issue like")
             }
         },
         ack_issue_detail: function(response){
@@ -502,7 +510,7 @@ new Vue({
         },
         ack_comment_list: function(response){
             if(response.data.err_code == -1){
-                alert("comment_list_filed")
+                alert("filed to get comment list")
                 return
             }else{
                 var data = response.data.data
