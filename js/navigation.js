@@ -8,7 +8,6 @@ Vue.component('navigation', {
     </v-app-bar-nav-icon>\
     <v-toolbar-title>\
     <v-btn text color = "black" href="home.html">首页</v-btn>\
-    <v-btn text color = "black">问答</v-btn>\
     <v-btn class = "mr-12" text color = "black" href="article_editor.html">写文章</v-btn>\
     </v-toolbar-title>\
     <v-spacer></v-spacer>\
