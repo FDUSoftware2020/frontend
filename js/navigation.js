@@ -311,19 +311,19 @@ Vue.component('navigation', {
     },
 
     ack_read: function(response){
-      if(response.err_code == 0){
+      if(response.data.err_code == 0){
         return
       }else{
-        alert(response.message)
+        console.log(response.message)
       }
     },
 
 
     ack_delete: function(response){
-      if(response.err_code == 0){
+      if(response.data.err_code == 0){
         return
       }else{
-        alert(response.message)
+        console.log(response.message)
       }
     },
 
