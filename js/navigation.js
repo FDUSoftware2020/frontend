@@ -29,7 +29,7 @@ Vue.component('navigation', {
       <v-btn text color = "black" href="sign.html">登录</v-btn>\
       <v-btn text color = "black" href="register.html">注册</v-btn>\
     </div>\
-    <div v-if="log_in">\
+    <div v-if="!log_in">\
       <v-dialog v-model="dialog" width="400px">
         <template v-slot:activator="{ on }">
           <v-btn v-bind="attrs" v-on="on" @click="">
@@ -48,46 +48,51 @@ Vue.component('navigation', {
         <v-card
           class="mx-auto"
           max-width="400"
-          min-width="400"
-          tile
+          dense
         >
           <v-card-title>消息通知</v-card-title>
           <v-divider></v-divider>
           <v-list-item two-line v-for="(item, index) in news" :key="index">
             <v-list-item-content>
-              <v-list-item-title>
-                <span class="font-weight-black" @click="jump(index, 0)">{{item.from}} </span>
-                <span @click="jump(index, 0)">{{item.content}}</span>
-              </v-list-item-title>
-              <v-list-item-subtitle>
-                <span class="font-weight-light" @click="jump(index, 0)">{{item.pub_date}}</span>
-                <span>
-                  <v-icon small @click="del(index, 0)">
-                    mdi-delete
-                  </v-icon>
-                </span>
+              <p style="word-break:break-all;" @click="jump(index, 0)">
+                <span class="font-weight-black">{{item.from}} </span>
+                {{item.content}}
+              </p>
+              <v-list-item-subtitle @click="jump(index, 0)">
+                <span class="font-weight-light">{{item.pub_date}}</span>
               </v-list-item-subtitle>
             </v-list-item-content>
+            <v-list-item-action @click="del(index, 0)">
+              <v-btn icon>
+                <v-icon small color="grey lighten-1">
+                  mdi-delete
+                </v-icon>
+              </v-btn>
+            </v-list-item-action>
           </v-list-item>
           <div v-if="!no_old">
-            <p class="font-weight-thin">------------------以下为旧消息-----------------</p>
+            <v-subheader>以下为旧消息</v-subheader>
+            <v-divider></v-divider>
+            
           </div>
           <v-list-item two-line v-for="(item, index) in old" :key="index">
             <v-list-item-content>
-              <v-list-item-title>
-                <span class="font-weight-black" @click="jump(index, 1)">{{item.from}} </span>
-                <span @click="jump(index, 0)">{{item.content}}</span>
-              </v-list-item-title>
-              <v-list-item-subtitle>
-                <span class="font-weight-light" @click="jump(index, 0)">{{item.pub_date}}</span>
-                <span>
-                  <v-icon small @click="del(index, 0)">
-                    mdi-delete
-                  </v-icon>
-                </span>
-              </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
+            <p @click="jump(index, 1)">
+            <span class="font-weight-black">{{item.from}} </span>
+            {{item.content}}
+          </p>
+          <v-list-item-subtitle @click="jump(index, 1)">
+            <span class="font-weight-light">{{item.pub_date}}</span>
+          </v-list-item-subtitle>
+        </v-list-item-content>
+        <v-list-item-action @click="del(index, 1)">
+          <v-btn icon>
+            <v-icon small color="grey lighten-1">
+              mdi-delete
+            </v-icon>
+          </v-btn>
+        </v-list-item-action>
+      </v-list-item>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="green darken-1" text @click="dialog = false">确认</v-btn>
@@ -130,7 +135,7 @@ Vue.component('navigation', {
 	    "comment_id": -1,
       "from": "张三",
       "pub_date": "2020-2-20",
-      "content": "在帖子《XXXXXXX》你的回复中追加了一条对话",
+      "content": "在帖子《XXXXXXXXXXXXXXXXXXXXXXXXXX》你的回复中追加了一条对话",
       "IsReading": 0
     },
     { 
