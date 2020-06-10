@@ -245,9 +245,16 @@ Vue.component('navigation', {
       }else{
         var temp = this.old[index]
       }
-      if(temp.type == 1 || temp.type == 3){
+      axios.get(url + '/account/message/' + this.news[index].msg_id + '/read/', data = {
+        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+      })
+      .then(response => (this.ack_read(response)))
+      .catch(function(error){
+        console.log(error);
+      });
+      if(temp.type == 0 || temp.type == 2){
         window.location.href = "question.html?question_id=" + temp.issue_id
-      }else if(temp.type == 2){
+      }else if(temp.type == 1){
         window.location.href = "article.html?article_id=" + temp.issue_id
       }else{
         alert("Error.")
