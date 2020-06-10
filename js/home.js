@@ -89,7 +89,7 @@ new Vue({
     },
     methods: {
         load_recommendation: function(){
-            key = "？"
+            key = ""
             axios.post(url + '/issue/search/', data = {
                 keyword : key
             }, {

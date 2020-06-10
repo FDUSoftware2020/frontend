@@ -3,7 +3,7 @@ new Vue({
     vuetify: new Vuetify(),
     data: {
         tab_ptr: null,
-        tabs: ["收藏", "回答", "文章"],
+        tabs: ["收藏", "问答", "文章"],
         tabs_content: {
             "收藏": [{
                 "id": 0,
@@ -17,10 +17,10 @@ new Vue({
                 "IsCollecting": true,
                 "IsLiking": false,
             }, ],
-            "回答": [{
+            "问答": [{
                 "id": 0,
                 "type": 0,
-                "title": "这是一个回答",
+                "title": "这是一个问答",
                 "author": "张三",
                 "pub_date": "2020-10-10",
                 "content": "get the question or some lines of the article",
@@ -241,12 +241,12 @@ new Vue({
         ack_publication_list: function (response) {
             var data = response.data
             if (data.err_code == 0) {
-                this.tabs_content["回答"] = []
+                this.tabs_content["问答"] = []
                 this.tabs_content["文章"] = []
                 for (var i in data.data) {
                     var issue = data.data[i]
                     if (Number(issue["type"]) == 0) {
-                        this.tabs_content["回答"].push(issue);
+                        this.tabs_content["问答"].push(issue);
                     } else if (Number(issue["type"]) == 1) {
                         this.tabs_content["文章"].push(issue);
                     }
