@@ -89,7 +89,8 @@ Vue.component('single_subcomment',{
         ack_pub_comment : function(response){
             var data = response.data;
             if(data.err_code == 0){
-                alert("回复成功");
+                alert("回复成功")
+                this.$emit('comment_respond')
             }else{
                 alert("回复失败\n" + data.message);
             }
@@ -164,7 +165,9 @@ Vue.component('single_comment',{
         </v-card>\
         <v-divider></v-divider>\
         <div v-if="show_comments" class = "ml-12">\
-            <single_subcomment v-bind:item="tool, idx" v-bind:parent_id="item.id" v-for="(tool, idx) in sub_comments" v-on:like_comment = "req_comment_like"></single_subcomment>\
+            <single_subcomment v-bind:item="tool, idx" v-bind:parent_id="item.id" v-for="(tool, idx) in sub_comments" \
+            v-on:like_comment = "req_comment_like" v-on:comment_respond = "req_comment_list" \
+            v-on:comment_delete = "req_comment_list"></single_subcomment>\
         </div>\
     </div>\
     ',
@@ -205,6 +208,7 @@ Vue.component('single_comment',{
             var data = response.data;
             if(data.err_code == 0){
                 alert("回复成功");
+                this.req_comment_list();
             }else{
                 alert("回复失败\n" + data.message);
             }
@@ -238,7 +242,7 @@ Vue.component('single_comment',{
                 return
             }
             alert("删除成功")
-            this.$emit('comment_delete')
+            location.reload()
         },
 
         //点赞一条回答的评论
@@ -267,7 +271,7 @@ Vue.component('single_comment',{
                     this.sub_comments[idx].like_num = this.sub_comments[idx].like_num - 1
                 }
             }else{
-                alert("ops")
+                alert("failed to get comment like")
             }
         },
 
@@ -296,7 +300,7 @@ Vue.component('single_comment',{
 
         ack_comment_list: function(response){
             if(response.data.err_code == -1){
-                alert("oops")
+                alert("failed to get comment list")
                 return
             }else{
                 var data = response.data.data
@@ -390,6 +394,7 @@ new Vue({
             var data = response.data;
             if(data.err_code == 0){
                 alert("回复成功");
+                location.reload();
             }else{
                 alert("回复失败\n" + data.message);
             }
@@ -454,7 +459,7 @@ new Vue({
                     this.q_collect_num = this.q_collect_num + 1;
                 }
             }else{
-                alert("ops")
+                alert("failed to get issue collect")
             }
         },
 
@@ -485,7 +490,7 @@ new Vue({
                     this.q_like_num = this.q_like_num + 1;
                 }
             }else{
-                alert("ops")
+                alert("failed to get issue like")
             }
         },
         ack_issue_detail: function(response){
@@ -505,7 +510,7 @@ new Vue({
         },
         ack_comment_list: function(response){
             if(response.data.err_code == -1){
-                alert("comment_list_filed")
+                alert("filed to get comment list")
                 return
             }else{
                 var data = response.data.data
