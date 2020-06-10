@@ -81,7 +81,7 @@ Vue.component('single_subcomment',{
             }, {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
-            .then(response => (this.ack_pub_comment(response, idx)))
+            .then(response => (this.ack_pub_comment(response)))
             .catch(function(error){
                 console.log(error);
             });
@@ -143,11 +143,11 @@ Vue.component('single_comment',{
                 <p class="text--primary">{{item.content}}</p>\
             </v-card-text>\
             <v-card-actions>\
-                <v-btn text v-if="!item.IsLiking" min-width="80" max-width="80" @click="comment_like">\
+                <v-btn text v-if="!item.IsLiking" min-width="80" max-width="80" @click="like_comment">\
                     <v-icon small left color="grey">mdi-thumb-up</v-icon>\
                     {{item.like_num}}\
                 </v-btn>\
-                <v-btn text color="blue" v-if="item.IsLiking" min-width="80" max-width="80" @click="comment_like">\
+                <v-btn text color="blue" v-if="item.IsLiking" min-width="80" max-width="80" @click="like_comment">\
                     <v-icon small left>mdi-thumb-up</v-icon>\
                     {{item.like_num}}\
                 </v-btn>\
@@ -160,7 +160,7 @@ Vue.component('single_comment',{
             </v-card-actions>\
             <v-card-actions>\
                 <v-textarea label="输入你的评论内容" outlined color="blue" height="50" v-if="show_response_editor" class="mt-2" v-model = "__comment"></v-textarea>\
-                <v-btn color="primary" v-if="show_response_editor" class="mb-4" min-width="80" @click="pub_comment">发布</v-btn>\
+                <v-btn color="primary" v-if="show_response_editor" class="mb-4" min-width="80" @click="req_pub_comment">发布</v-btn>\
             </v-card-actions>\
         </v-card>\
         <v-divider></v-divider>\
@@ -182,7 +182,7 @@ Vue.component('single_comment',{
     },
 
     methods:{
-        pub_comment: function(){
+        req_pub_comment: function(){
             if(!is_logged_in){
                 alert("请先登录！")
                 location = "sign.html"
@@ -199,18 +199,18 @@ Vue.component('single_comment',{
             }, {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
-            .then(response => (this.ack_pub_comment(response, idx)))
+            .then(response => (this.ack_pub_comment(response)))
             .catch(function(error){
                 console.log(error);
             });
         },
         ack_pub_comment : function(response){
             var data = response.data;
-            if(data.err_code == 0){
-                alert("回复成功");
-                this.req_comment_list();
+            if(data.err_code == -1){
+                alert("回复失败\n" + data.message)
             }else{
-                alert("回复失败\n" + data.message);
+                alert("回复成功")
+                this.req_comment_list()
             }
         },
 
@@ -368,7 +368,7 @@ new Vue({
             r = null;
             return context == null || context == "" || context == "undefined" ? "" : context;
         },
-        pub_comment: function(){
+        req_pub_comment: function(){
             if(!is_logged_in){
                 alert("请先登录！")
                 location = "sign.html"
@@ -385,18 +385,18 @@ new Vue({
             }, {
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
-            .then(response => (this.ack_pub_comment(response, idx)))
+            .then(response => (this.ack_pub_comment(response)))
             .catch(function(error){
                 console.log(error);
             });
         },
         ack_pub_comment : function(response){
             var data = response.data;
-            if(data.err_code == 0){
-                alert("回复成功");
-                location.reload();
+            if(data.err_code == -1){
+                alert("回复失败\n" + data.message)
             }else{
-                alert("回复失败\n" + data.message);
+                alert("回复成功")
+                location.reload()
             }
         },
 
