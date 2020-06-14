@@ -101,7 +101,7 @@ Vue.component('navigation', {
       </v-dialog>
       <v-menu>\
         <template v-slot:activator="{ on, attrs }">\
-          <v-btn v-bind="attrs" v-on="on">{{user_id}}</v-btn>\
+          <v-btn name="user_btn" v-bind="attrs" v-on="on">{{user_id}}</v-btn>\
         </template>\
         <v-list>\
           <v-list-item @click="goto_profile">\
