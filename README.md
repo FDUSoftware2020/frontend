@@ -30,6 +30,10 @@
 
 6. 问题/文章编辑、文章展示、搜索功能实现(2020-5-5)
 
+7. 个人主页、通知信息、二级评论实现(2020-6-6)
+
+8. UI功能测试完成(2020-6-14)
+
 ## Structure
 
 ```
@@ -46,6 +50,7 @@ frontend
 ├── article.html          // 文章展示页面
 ├── article_editor.html   // 文章编辑页面
 ├── search_page.html      // 搜索结果页面
+├── profile.html          // 个人主页页面
 └── README.md
 ```
 
