@@ -25,8 +25,8 @@ Vue.component('navigation', {
     </v-col>\
     <v-btn class = "mr-12" color = "primary" href="question_editor.html">提问</v-btn>\
     <div v-if="!log_in">\
-      <v-btn text color = "black" href="sign.html">登录</v-btn>\
-      <v-btn text color = "black" href="register.html">注册</v-btn>\
+      <v-btn text name="login_btn" color = "black" href="sign.html">登录</v-btn>\
+      <v-btn text name="register_btn" color = "black" href="register.html">注册</v-btn>\
     </div>\
     <div v-if="log_in">\
       <v-dialog v-model="dialog" width="400px">
@@ -107,7 +107,7 @@ Vue.component('navigation', {
           <v-list-item @click="goto_profile">\
             <v-list-item-title>用户主页</v-list-item-title>\
           </v-list-item>\
-          <v-list-item @click="req_logout">\
+          <v-list-item name="logout_btn" @click="req_logout">\
             <v-list-item-title>登出</v-list-item-title>\
           </v-list-item>\
         </v-list>\
