@@ -77,7 +77,7 @@
                     -->
                     <v-card-actions>
                         <v-textarea label="输入你的评论内容" outlined color="blue" height="50" class="mt-2" v-model = "__comment"></v-textarea>
-                        <v-btn color="primary" class="mb-4" min-width="80" @click="req_pub_comment">发布</v-btn>
+                        <v-btn name="pub_btn" color="primary" class="mb-4" min-width="80" @click="req_pub_comment">发布</v-btn>
                     </v-card-actions>
                     <v-divider></v-divider>
                     <single_comment v-bind:item="tool, idx" v-for="(tool, idx) in comments" v-on:like_comment = "req_comment_like"></single_comment>
