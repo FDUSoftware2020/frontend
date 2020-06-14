@@ -24,7 +24,7 @@ Vue.component('editor_header', {
           <v-btn v-bind="attrs" v-on="on" id = "User_Name">未登录</v-btn>\
         </template>\
         <v-list>\
-          <v-list-item href='profile.html'>\
+          <v-list-item @click="goto_profile">\
             <v-list-item-title>用户主页</v-list-item-title>\
           </v-list-item>\
           <v-list-item @click="req_logout">\
@@ -81,6 +81,10 @@ Vue.component('editor_header', {
           location = "sign.html"
           return
         }
+      },
+
+      goto_profile: function(){
+        location = 'profile.html'
       },
     },
   
