@@ -27,9 +27,9 @@
 
             <div id="login_container" class="mx-auto">
                 <v-form ref="form" lazy-validation class="ma-12">
-                    <v-text-field label="Name" required v-model="id"></v-text-field>
-                    <v-text-field label="password" type="password" required v-model="pwd"></v-text-field>
-                    <v-btn color="success" @click="req_login" max-width="300" min-width="300">登录</v-btn>
+                    <v-text-field name="username_input" label="Name" required v-model="id"></v-text-field>
+                    <v-text-field name="password_input" label="password" type="password" required v-model="pwd"></v-text-field>
+                    <v-btn name="sign_btn" color="success" @click="req_login" max-width="300" min-width="300">登录</v-btn>
                 </v-form>
             </div>
 
